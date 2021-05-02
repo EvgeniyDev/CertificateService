@@ -9,6 +9,7 @@ namespace CertificateService.Web.API.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            /*
             migrationBuilder.CreateTable(
                 name: "Faculties",
                 columns: table => new
@@ -126,10 +127,12 @@ namespace CertificateService.Web.API.Data.Migrations
                 name: "IX_Students_StudentTicketId",
                 table: "Students",
                 column: "StudentTicketId");
+            */
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            /*
             migrationBuilder.DropTable(
                 name: "Students");
 
@@ -144,6 +147,7 @@ namespace CertificateService.Web.API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Faculties");
+            */
         }
     }
 }
