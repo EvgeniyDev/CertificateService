@@ -16,8 +16,6 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Add(Faculty newFaculty)
         {
-            newFaculty.Id = default;
-
             appDBContext.Faculties.Add(newFaculty);
             Save();
         }
@@ -55,19 +53,7 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Update(Faculty faculty)
         {
-            var facultyToUpdate = GetFacultyById(faculty.Id);
-
-            if (facultyToUpdate is null)
-            {
-                Add(faculty);
-            }
-            else
-            {
-                facultyToUpdate.Name = faculty.Name;
-                facultyToUpdate.Number = faculty.Number;
-
-                appDBContext.Update(facultyToUpdate);
-            }
+            appDBContext.Update(faculty);
 
             Save();
         }

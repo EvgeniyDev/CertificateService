@@ -1,5 +1,6 @@
 ﻿using CertificateService.Web.API.Core.Services.Interfaces;
-using CertificateService.Web.API.Data.Models;
+using CertificateService.Web.API.Core.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CertificateService.Web.API.Controllers
@@ -32,15 +33,15 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Faculty faculty)
+        public IActionResult Add(AddFacultyViewModel faculty)
         {
             facultiesService.Add(faculty);
 
-            return CreatedAtAction(nameof(Faculty), faculty);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]
-        public IActionResult Update(Faculty faculty)
+        public IActionResult Update(UpdateFacultyViewModel faculty)
         {
             facultiesService.Update(faculty);
 

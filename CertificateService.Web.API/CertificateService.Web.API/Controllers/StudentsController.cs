@@ -1,5 +1,5 @@
 ﻿using CertificateService.Web.API.Core.Services.Interfaces;
-using CertificateService.Web.API.Core.ViewModel;
+using CertificateService.Web.API.Core.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CertificateService.Web.API.Controllers

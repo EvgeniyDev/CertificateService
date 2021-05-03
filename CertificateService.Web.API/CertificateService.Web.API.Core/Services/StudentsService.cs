@@ -1,5 +1,5 @@
 ﻿using CertificateService.Web.API.Core.Services.Interfaces;
-using CertificateService.Web.API.Core.ViewModel;
+using CertificateService.Web.API.Core.ViewModels;
 using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
 using System.Collections.Generic;

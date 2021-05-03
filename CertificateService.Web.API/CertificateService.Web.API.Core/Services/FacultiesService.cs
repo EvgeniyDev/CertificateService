@@ -1,4 +1,6 @@
-﻿using CertificateService.Web.API.Core.Services.Interfaces;
+﻿using AutoMapper;
+using CertificateService.Web.API.Core.Services.Interfaces;
+using CertificateService.Web.API.Core.ViewModels;
 using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -7,16 +9,20 @@ namespace CertificateService.Web.API.Core.Services
 {
     public class FacultiesService : IFacultiesService
     {
+        private readonly IMapper mapper;
         private readonly IFacultyRepository facultyRepository;
 
-        public FacultiesService(IFacultyRepository facultyRepository)
+        public FacultiesService(IFacultyRepository facultyRepository, IMapper mapper)
         {
+            this.mapper = mapper;
             this.facultyRepository = facultyRepository;
         }
 
-        public void Add(Faculty newFaculty)
+        public void Add(AddFacultyViewModel newFaculty)
         {
-            facultyRepository.Add(newFaculty);
+            var facultyToAdd = mapper.Map<Faculty>(newFaculty);
+
+            facultyRepository.Add(facultyToAdd);
         }
 
         public void Delete(int id)
@@ -34,9 +40,11 @@ namespace CertificateService.Web.API.Core.Services
             return facultyRepository.GetFacultyById(id);
         }
 
-        public void Update(Faculty faculty)
+        public void Update(UpdateFacultyViewModel faculty)
         {
-            facultyRepository.Update(faculty);
+            var facultyToUpdate = mapper.Map<Faculty>(faculty);
+
+            facultyRepository.Update(facultyToUpdate);
         }
     }
 }

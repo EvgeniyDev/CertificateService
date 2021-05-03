@@ -1,4 +1,4 @@
-﻿using CertificateService.Web.API.Core.ViewModel;
+﻿using CertificateService.Web.API.Core.ViewModels;
 using System.Collections.Generic;
 
 namespace CertificateService.Web.API.Core.Services.Interfaces

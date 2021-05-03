@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CertificateService.Web.API.Core.ViewModel
+namespace CertificateService.Web.API.Core.ViewModels
 {
     public class StudentViewModel
     {
