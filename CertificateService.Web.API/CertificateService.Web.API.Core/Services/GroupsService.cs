@@ -1,4 +1,6 @@
-﻿using CertificateService.Web.API.Core.Services.Interfaces;
+﻿using AutoMapper;
+using CertificateService.Web.API.Core.Services.Interfaces;
+using CertificateService.Web.API.Core.ViewModels;
 using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -7,16 +9,19 @@ namespace CertificateService.Web.API.Core.Services
 {
     public class GroupsService : IGroupsService
     {
+        private readonly IMapper mapper;
         private readonly IGroupRepository groupRepository;
 
-        public GroupsService(IGroupRepository groupRepository)
+        public GroupsService(IGroupRepository groupRepository, IMapper mapper)
         {
+            this.mapper = mapper;
             this.groupRepository = groupRepository;
         }
 
-        public void Add(Group newGroup)
+        public void Add(AddGroupViewModel newGroup)
         {
-            groupRepository.Add(newGroup);
+            var groupToAdd = mapper.Map<Group>(newGroup);
+            groupRepository.Add(groupToAdd);
         }
 
         public void Delete(int id)
@@ -34,9 +39,11 @@ namespace CertificateService.Web.API.Core.Services
             return groupRepository.GetGroups();
         }
 
-        public void Update(Group group)
+        public void Update(UpdateGroupViewModel group)
         {
-            groupRepository.Update(group);
+            var groupToUpdate = mapper.Map<Group>(group);
+
+            groupRepository.Update(groupToUpdate);
         }
     }
 }

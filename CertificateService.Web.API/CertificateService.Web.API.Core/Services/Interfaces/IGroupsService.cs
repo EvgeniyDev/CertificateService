@@ -1,13 +1,14 @@
-﻿using CertificateService.Web.API.Data.Models;
+﻿using CertificateService.Web.API.Core.ViewModels;
+using CertificateService.Web.API.Data.Models;
 using System.Collections.Generic;
 
 namespace CertificateService.Web.API.Core.Services.Interfaces
 {
     public interface IGroupsService
     {
-        void Add(Group newGroup);
+        void Add(AddGroupViewModel newGroup);
         void Delete(int id);
-        void Update(Group group);
+        void Update(UpdateGroupViewModel group);
         IEnumerable<Group> GetGroups();
         Group GetGroup(int id);
     }

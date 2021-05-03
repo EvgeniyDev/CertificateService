@@ -10,6 +10,9 @@ namespace CertificateService.Web.API.Core.Mapper
         {
             CreateMap<Faculty, AddFacultyViewModel>().ReverseMap();
             CreateMap<Faculty, UpdateFacultyViewModel>().ReverseMap();
+
+            CreateMap<Group, AddGroupViewModel>().ReverseMap();
+            CreateMap<Group, UpdateGroupViewModel>().ReverseMap();
         }
     }
 }

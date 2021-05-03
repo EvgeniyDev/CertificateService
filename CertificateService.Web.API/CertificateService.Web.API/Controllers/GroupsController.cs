@@ -1,5 +1,6 @@
 ﻿using CertificateService.Web.API.Core.Services.Interfaces;
-using CertificateService.Web.API.Data.Models;
+using CertificateService.Web.API.Core.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CertificateService.Web.API.Controllers
@@ -32,15 +33,15 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Group group)
+        public IActionResult Add(AddGroupViewModel group)
         {
             groupsService.Add(group);
 
-            return CreatedAtAction(nameof(Group), group);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]
-        public IActionResult Update(Group group)
+        public IActionResult Update(UpdateGroupViewModel group)
         {
             groupsService.Update(group);
 

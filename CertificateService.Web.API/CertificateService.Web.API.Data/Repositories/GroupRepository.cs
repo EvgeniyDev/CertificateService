@@ -16,8 +16,6 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Add(Group newGroup)
         {
-            newGroup.Id = default;
-
             appDBContext.Groups.Add(newGroup);
             Save();
         }
@@ -55,19 +53,7 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Update(Group group)
         {
-            var groupToUpdate = GetGroupById(group.Id);
-
-            if (groupToUpdate is null)
-            {
-                Add(group);
-            }
-            else
-            {
-                groupToUpdate.Name = group.Name;
-
-                appDBContext.Update(groupToUpdate);
-            }
-
+            appDBContext.Update(group);
             Save();
         }
     }
