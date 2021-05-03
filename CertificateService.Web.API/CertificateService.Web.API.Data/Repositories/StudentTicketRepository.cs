@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
-    public class StudentTicketsRepository : IStudentTicketRepository
+    public class StudentTicketRepository : IStudentTicketRepository
     {
         private readonly AppDBContext appDBContext;
 
-        public StudentTicketsRepository(AppDBContext appDBContext)
+        public StudentTicketRepository(AppDBContext appDBContext)
         {
             this.appDBContext = appDBContext;
         }

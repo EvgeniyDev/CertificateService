@@ -1,4 +1,5 @@
 using CertificateService.Web.API.Data;
+using CertificateService.Web.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +26,8 @@ namespace CertificateService.Web.API
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDBContext>(options => options.UseSqlServer(connectionString));
+
+            services.ServiceInjection();
 
             services.AddControllers();
         }
