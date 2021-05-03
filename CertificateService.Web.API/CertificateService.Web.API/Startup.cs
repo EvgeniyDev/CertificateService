@@ -30,6 +30,8 @@ namespace CertificateService.Web.API
             services.ServiceInjection();
 
             services.AddControllers();
+
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -41,8 +43,13 @@ namespace CertificateService.Web.API
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Certificate service Web API");
+            });
 
+            app.UseRouting();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
