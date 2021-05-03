@@ -16,8 +16,6 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Add(StudentTicket newStudentTicket)
         {
-            newStudentTicket.Id = default;
-
             appDBContext.StudentTickets.Add(newStudentTicket);
             Save();
         }
@@ -55,20 +53,7 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Update(StudentTicket studentTicket)
         {
-            var studentTicketToUpdate = GetStudentTicketById(studentTicket.Id);
-
-            if (studentTicketToUpdate is null)
-            {
-                Add(studentTicket);
-            }
-            else
-            {
-                studentTicketToUpdate.Number = studentTicket.Number;
-                studentTicketToUpdate.DateOfIssue = studentTicket.DateOfIssue;
-                studentTicketToUpdate.DateOfExpiry = studentTicket.DateOfExpiry;
-
-                appDBContext.Update(studentTicketToUpdate);
-            }
+            appDBContext.Update(studentTicket);
 
             Save();
         }

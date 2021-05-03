@@ -16,8 +16,6 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Add(StudentData newStudentData)
         {
-            newStudentData.Id = default;
-
             appDBContext.StudentDatas.Add(newStudentData);
             Save();
         }
@@ -55,22 +53,7 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Update(StudentData studentData)
         {
-            var studentDataToUpdate = GetStudentDataById(studentData.Id);
-
-            if (studentDataToUpdate is null)
-            {
-                Add(studentData);
-            }
-            else
-            {
-                studentDataToUpdate.Name = studentData.Name;
-                studentDataToUpdate.Surname = studentData.Surname;
-                studentDataToUpdate.Patronymic = studentData.Patronymic;
-                studentDataToUpdate.DateOfBirth = studentData.DateOfBirth;
-
-                appDBContext.Update(studentDataToUpdate);
-            }
-
+            appDBContext.Update(studentData);
             Save();
         }
     }

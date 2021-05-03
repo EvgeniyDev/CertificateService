@@ -5,7 +5,7 @@ namespace CertificateService.Web.API.Core.Services.Interfaces
 {
     public interface IStudentsService
     {
-        void Add(StudentViewModel newStudent);
+        void Add(AddStudentViewModel newStudent);
         void Delete(int id);
         void Update(StudentViewModel student);
         IEnumerable<StudentViewModel> GetStudents();

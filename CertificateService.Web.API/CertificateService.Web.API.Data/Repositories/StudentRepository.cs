@@ -1,5 +1,6 @@
 ﻿using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,8 +17,6 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Add(Student newStudent)
         {
-            newStudent.Id = default;
-
             appDBContext.Students.Add(newStudent);
             Save();
         }
@@ -35,12 +34,18 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public Student GetStudentById(int id)
         {
-            return appDBContext.Students.FirstOrDefault(x => x.Id == id);
+            return appDBContext.Students
+                .Include(s => s.StudentData)
+                .Include(s => s.StudentTicket)
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<Student> GetStudents()
         {
-            return appDBContext.Students.AsEnumerable();
+            return appDBContext.Students
+                .Include(s => s.StudentData)
+                .Include(s => s.StudentTicket)
+                .AsNoTracking();
         }
 
         public void Save()
@@ -50,21 +55,7 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Update(Student student)
         {
-            var studentToUpdate = GetStudentById(student.Id);
-
-            if (studentToUpdate is null)
-            {
-                Add(student);
-            }
-            else
-            {
-                studentToUpdate.GroupId = student.GroupId;
-                studentToUpdate.StudentDataId = student.StudentDataId;
-                studentToUpdate.StudentTicketId = student.StudentTicketId;
-
-                appDBContext.Update(studentToUpdate);
-            }
-
+            appDBContext.Update(student);
             Save();
         }
     }

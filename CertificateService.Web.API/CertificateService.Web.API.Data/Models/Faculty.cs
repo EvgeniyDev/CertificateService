@@ -8,6 +8,6 @@ namespace CertificateService.Web.API.Data.Models
         public int Number { get; set; }
         public string Name { get; set; }
 
-        public List<Group> Groups { get; set; }
+        public ICollection<Group> Groups { get; set; }
     }
 }

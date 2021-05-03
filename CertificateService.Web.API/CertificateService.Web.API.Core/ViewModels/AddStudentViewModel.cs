@@ -2,9 +2,8 @@
 
 namespace CertificateService.Web.API.Core.ViewModels
 {
-    public class StudentViewModel
+    public class AddStudentViewModel
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Patronymic { get; set; }

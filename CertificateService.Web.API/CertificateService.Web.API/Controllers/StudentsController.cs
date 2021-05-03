@@ -1,5 +1,6 @@
 ﻿using CertificateService.Web.API.Core.Services.Interfaces;
 using CertificateService.Web.API.Core.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CertificateService.Web.API.Controllers
@@ -32,11 +33,11 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(StudentViewModel student)
+        public IActionResult Add(AddStudentViewModel student)
         {
             studentsService.Add(student);
 
-            return CreatedAtAction(nameof(StudentViewModel), student);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]
