@@ -43,6 +43,8 @@ namespace CertificateService.Web.API.Core.Services
 
         public void Delete(int id)
         {
+            GetStudent(id);
+
             studentRepository.Delete(id);
         }
 

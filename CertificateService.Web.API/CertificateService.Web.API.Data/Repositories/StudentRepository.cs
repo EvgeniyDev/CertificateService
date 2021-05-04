@@ -27,6 +27,8 @@ namespace CertificateService.Web.API.Data.Repositories
 
             if (studentToDelete != null)
             {
+                appDBContext.StudentDatas.Remove(studentToDelete.StudentData);
+                appDBContext.StudentTickets.Remove(studentToDelete.StudentTicket);
                 appDBContext.Students.Remove(studentToDelete);
                 Save();
             }

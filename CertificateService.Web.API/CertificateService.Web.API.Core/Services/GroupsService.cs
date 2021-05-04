@@ -35,6 +35,8 @@ namespace CertificateService.Web.API.Core.Services
 
         public void Delete(int id)
         {
+            GetGroup(id);
+
             groupRepository.Delete(id);
         }
 
