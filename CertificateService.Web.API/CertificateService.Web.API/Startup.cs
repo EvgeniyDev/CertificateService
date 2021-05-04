@@ -41,6 +41,8 @@ namespace CertificateService.Web.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.ConfigureCustomExceptionMiddleware();
+
             app.UseHttpsRedirection();
 
             app.UseSwagger();

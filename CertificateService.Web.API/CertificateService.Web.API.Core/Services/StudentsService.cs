@@ -1,19 +1,25 @@
-﻿using CertificateService.Web.API.Core.Services.Interfaces;
+﻿using CertificateService.Web.API.Core.Exceptions;
+using CertificateService.Web.API.Core.Services.Interfaces;
 using CertificateService.Web.API.Core.ViewModels;
+using CertificateService.Web.API.Data.Resources;
 using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Resources;
 
 namespace CertificateService.Web.API.Core.Services
 {
     public class StudentsService : IStudentsService
     {
+        private readonly ResourceManager resourceManager;
         private readonly IStudentRepository studentRepository;
 
         public StudentsService(IStudentRepository studentRepository)
         {
             this.studentRepository = studentRepository;
+            resourceManager = new ResourceManager(typeof(ErrorMessages).FullName, typeof(ErrorMessages).Assembly);
         }
 
         public void Add(AddStudentViewModel newStudent)
@@ -44,6 +50,12 @@ namespace CertificateService.Web.API.Core.Services
         {
             var student = studentRepository.GetStudentById(id);
 
+            if (student == null)
+            {
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Student by requested id was");
+                throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
+            }
+
             var studentViewModel = new StudentViewModel()
             {
                 Id = student.Id,
@@ -63,6 +75,12 @@ namespace CertificateService.Web.API.Core.Services
         {
             var studentViewModels = new List<StudentViewModel>();
             var students = studentRepository.GetStudents().ToList();
+
+            if (!students.Any())
+            {
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Students were");
+                throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
+            }
 
             for (int i = 0; i < students.Count; i++)
             {
@@ -87,7 +105,8 @@ namespace CertificateService.Web.API.Core.Services
 
             if (studentInDb == null)
             {
-                return;
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Student by requested id was");
+                throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
             studentInDb.StudentData.Name = student.Name;
