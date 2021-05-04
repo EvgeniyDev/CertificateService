@@ -1,4 +1,3 @@
-using AutoMapper;
 using CertificateService.Web.API.Core.Mapper;
 using CertificateService.Web.API.Data;
 using CertificateService.Web.API.Extensions;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CertificateService.Web.API
@@ -29,7 +29,8 @@ namespace CertificateService.Web.API
 
             services.AddAutoMapper(config => config.AddProfile(new MappingProfile()), typeof(Startup));
             services.ServiceInjection();
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen();
         }

@@ -11,5 +11,7 @@ namespace CertificateService.Web.API.Core.Services.Interfaces
         void Update(UpdateGroupViewModel group);
         IEnumerable<Group> GetGroups();
         Group GetGroup(int id);
+        void AddStudentsToGroup(int groupId, int[] studentIds);
+        void RemoveStudentsFromGroup(int groupId, int[] studentIds);
     }
 }
