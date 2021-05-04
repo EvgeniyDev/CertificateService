@@ -40,6 +40,22 @@ namespace CertificateService.Web.API.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
+        [HttpPost("groups/{facultyId}")]
+        public IActionResult AddGroupsToFaculty(int facultyId, int[] groupIds)
+        {
+            facultiesService.AddGroupsToFaculty(facultyId, groupIds);
+
+            return StatusCode(StatusCodes.Status201Created);
+        }
+
+        [HttpDelete("groups/{facultyId}")]
+        public IActionResult RemoveGroupsToFaculty(int facultyId, int[] groupIds)
+        {
+            facultiesService.RemoveGroupsFromFaculty(facultyId, groupIds);
+
+            return NoContent();
+        }
+
         [HttpPut]
         public IActionResult Update(UpdateFacultyViewModel faculty)
         {

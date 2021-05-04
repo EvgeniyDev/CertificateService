@@ -1,5 +1,6 @@
 ﻿using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,17 +34,24 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public IEnumerable<Faculty> GetFaculties()
         {
-            return appDBContext.Faculties.AsEnumerable();
+            return appDBContext.Faculties
+                .Include(f => f.Groups).ThenInclude(g => g.Students).ThenInclude(s => s.StudentData)
+                .Include(f => f.Groups).ThenInclude(g => g.Students).ThenInclude(s => s.StudentTicket)
+                .AsNoTracking();
         }
 
         public Faculty GetFacultyById(int id)
         {
-            return appDBContext.Faculties.FirstOrDefault(x => x.Id == id);
+            return appDBContext.Faculties
+                .Include(f => f.Groups)
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public Faculty GetFacultyByName(string name)
         {
-            return appDBContext.Faculties.FirstOrDefault(x => x.Name == name);
+            return appDBContext.Faculties
+                .Include(f => f.Groups)
+                .FirstOrDefault(x => x.Name == name);
         }
 
         public void Save()

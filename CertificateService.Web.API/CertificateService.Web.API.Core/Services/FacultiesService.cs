@@ -18,11 +18,16 @@ namespace CertificateService.Web.API.Core.Services
 
         private readonly IMapper mapper;
         private readonly IFacultyRepository facultyRepository;
+        private readonly IGroupsService groupsService;
 
-        public FacultiesService(IFacultyRepository facultyRepository, IMapper mapper)
+        public FacultiesService(
+            IFacultyRepository facultyRepository,
+            IGroupsService groupsService,
+            IMapper mapper)
         {
             this.mapper = mapper;
             this.facultyRepository = facultyRepository;
+            this.groupsService = groupsService;
 
             resourceManager = new ResourceManager(typeof(ErrorMessages).FullName, typeof(ErrorMessages).Assembly);
         }
@@ -60,7 +65,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (faculty == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Faculty by requested id");
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Faculty by requested id [{id}] was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -73,6 +78,45 @@ namespace CertificateService.Web.API.Core.Services
 
             var facultyToUpdate = mapper.Map<Faculty>(faculty);
             facultyRepository.Update(facultyToUpdate);
+        }
+
+        public void AddGroupsToFaculty(int facultyId, int[] groupIds)
+        {
+            var faculty = GetFaculty(facultyId);
+            var groups = new List<Group>();
+
+            foreach (var groupId in groupIds)
+            {
+                groups.Add(groupsService.GetGroup(groupId));
+            }
+
+            foreach (var group in groups)
+            {
+                if (!faculty.Groups.Any(x => x.Id == group.Id))
+                {
+                    faculty.Groups.Add(group);
+                }
+            }
+
+            facultyRepository.Save();
+        }
+
+        public void RemoveGroupsFromFaculty(int facultyId, int[] groupIds)
+        {
+            var faculty = GetFaculty(facultyId);
+            var groups = new List<Group>();
+
+            foreach (var groupId in groupIds)
+            {
+                groups.Add(groupsService.GetGroup(groupId));
+            }
+
+            foreach (var group in groups)
+            {
+                faculty.Groups.Remove(group);
+            }
+
+            facultyRepository.Save();
         }
     }
 }

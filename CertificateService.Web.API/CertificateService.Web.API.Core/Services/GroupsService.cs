@@ -46,7 +46,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (group == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Group by requested id was");
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Group by requested id [{id}] was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 

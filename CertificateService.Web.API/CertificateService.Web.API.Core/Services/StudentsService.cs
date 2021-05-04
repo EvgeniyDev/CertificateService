@@ -54,7 +54,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (student == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Student by requested id was");
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Student by requested id [{id}] was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 

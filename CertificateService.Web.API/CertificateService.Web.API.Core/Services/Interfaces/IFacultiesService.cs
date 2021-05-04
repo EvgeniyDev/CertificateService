@@ -11,5 +11,7 @@ namespace CertificateService.Web.API.Core.Services.Interfaces
         void Update(UpdateFacultyViewModel faculty);
         IEnumerable<Faculty> GetFaculties();
         Faculty GetFaculty(int id);
+        void AddGroupsToFaculty(int facultyId, int[] groupIds);
+        void RemoveGroupsFromFaculty(int facultyId, int[] groupIds);
     }
 }
