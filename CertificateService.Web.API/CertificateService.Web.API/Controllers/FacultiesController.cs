@@ -17,9 +17,17 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetFacultyById(int id)
         {
             var faculty = facultiesService.GetFaculty(id);
+
+            return Ok(faculty);
+        }
+
+        [HttpGet("facultyNumbers/{number}")]
+        public IActionResult GetFacultyByNumber(int number)
+        {
+            var faculty = facultiesService.GetFacultyByNumber(number);
 
             return Ok(faculty);
         }

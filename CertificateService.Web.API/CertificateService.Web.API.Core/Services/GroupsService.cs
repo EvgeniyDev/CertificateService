@@ -47,11 +47,24 @@ namespace CertificateService.Web.API.Core.Services
 
         public Group GetGroup(int id)
         {
-            var group = groupRepository.GetGroupById(id);
+            var group = groupRepository.GetGroupByPredicate(g => g.Id == id);
 
             if (group == null)
             {
                 var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Group by requested id [{id}] was");
+                throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
+            }
+
+            return group;
+        }
+
+        public Group GetGroup(string groupName)
+        {
+            var group = groupRepository.GetGroupByPredicate(g => g.Name == groupName);
+
+            if (group == null)
+            {
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Group by requested name [{groupName}] was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -86,7 +99,7 @@ namespace CertificateService.Web.API.Core.Services
 
             foreach (var studentId in studentIds)
             {
-                var studentToAdd = studentsRepository.GetStudentById(studentId);
+                var studentToAdd = studentsRepository.GetStudent(s => s.Id == studentId);
 
                 if (studentToAdd == null)
                 {
@@ -115,7 +128,7 @@ namespace CertificateService.Web.API.Core.Services
 
             foreach (var studentId in studentIds)
             {
-                var studentToAdd = studentsRepository.GetStudentById(studentId);
+                var studentToAdd = studentsRepository.GetStudent(s => s.Id == studentId);
 
                 if (studentToAdd == null)
                 {

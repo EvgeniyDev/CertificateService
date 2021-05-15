@@ -50,7 +50,7 @@ namespace CertificateService.Web.API.Core.Services
 
         public StudentViewModel GetStudent(int id)
         {
-            var student = studentRepository.GetStudentById(id);
+            var student = studentRepository.GetStudent(s => s.Id == id);
 
             if (student == null)
             {
@@ -58,19 +58,34 @@ namespace CertificateService.Web.API.Core.Services
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
-            var studentViewModel = new StudentViewModel()
-            {
-                Id = student.Id,
-                Name = student.StudentData.Name,
-                Surname = student.StudentData.Surname,
-                Patronymic = student.StudentData.Patronymic,
-                DateOfBirth = student.StudentData.DateOfBirth,
-                StudentTicketNumber = student.StudentTicket.Number,
-                StudentTicketDateOfIssue = student.StudentTicket.DateOfIssue,
-                StudentTicketDateOfExpiry = student.StudentTicket.DateOfExpiry
-            };
+            return MapStudent(student);
+        }
 
-            return studentViewModel;
+        public StudentViewModel GetStudent(string name, string surname, string patornymic)
+        {
+            var student = studentRepository
+                .GetStudent(s => s.StudentData.Name == name && s.StudentData.Surname == surname && s.StudentData.Patronymic == patornymic);
+
+            if (student == null)
+            {
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Student by requested full name [{name}, {surname}, {patornymic}] was");
+                throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
+            }
+
+            return MapStudent(student);
+        }
+
+        public StudentViewModel GetStudent(string studentTicketNumber)
+        {
+            var student = studentRepository.GetStudent(s => s.StudentTicket.Number == studentTicketNumber);
+
+            if (student == null)
+            {
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Student by requested student ticket number [{studentTicketNumber}] was");
+                throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
+            }
+
+            return MapStudent(student);
         }
 
         public IEnumerable<StudentViewModel> GetStudents()
@@ -86,24 +101,30 @@ namespace CertificateService.Web.API.Core.Services
 
             for (int i = 0; i < students.Count; i++)
             {
-                studentViewModels.Add(new StudentViewModel()
-                {
-                    Id = students[i].Id,
-                    Name = students[i].StudentData.Name,
-                    Surname = students[i].StudentData.Surname,
-                    Patronymic = students[i].StudentData.Patronymic,
-                    StudentTicketNumber = students[i].StudentTicket.Number,
-                    StudentTicketDateOfIssue = students[i].StudentTicket.DateOfIssue,
-                    StudentTicketDateOfExpiry = students[i].StudentTicket.DateOfExpiry
-                });
+                studentViewModels.Add(MapStudent(students[i]));
             }
 
             return studentViewModels;
         }
 
+        private StudentViewModel MapStudent(Student student)
+        {
+            return new StudentViewModel()
+            {
+                Id = student.Id,
+                Name = student.StudentData.Name,
+                Surname = student.StudentData.Surname,
+                Patronymic = student.StudentData.Patronymic,
+                DateOfBirth = student.StudentData.DateOfBirth,
+                StudentTicketNumber = student.StudentTicket.Number,
+                StudentTicketDateOfIssue = student.StudentTicket.DateOfIssue,
+                StudentTicketDateOfExpiry = student.StudentTicket.DateOfExpiry
+            };
+        }
+
         public void Update(StudentViewModel student)
         {
-            var studentInDb = studentRepository.GetStudentById(student.Id);
+            var studentInDb = studentRepository.GetStudent(s => s.Id == student.Id);
 
             if (studentInDb == null)
             {

@@ -1,8 +1,10 @@
 ﻿using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
@@ -23,7 +25,7 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Delete(int id)
         {
-            var facultyToDelete = GetFacultyById(id);
+            var facultyToDelete = GetFacultyByPredicate(f => f.Id == id);
 
             if (facultyToDelete != null)
             {
@@ -40,18 +42,11 @@ namespace CertificateService.Web.API.Data.Repositories
                 .AsNoTracking();
         }
 
-        public Faculty GetFacultyById(int id)
+        public Faculty GetFacultyByPredicate(Expression<Func<Faculty, bool>> predicate)
         {
             return appDBContext.Faculties
                 .Include(f => f.Groups)
-                .FirstOrDefault(x => x.Id == id);
-        }
-
-        public Faculty GetFacultyByName(string name)
-        {
-            return appDBContext.Faculties
-                .Include(f => f.Groups)
-                .FirstOrDefault(x => x.Name == name);
+                .FirstOrDefault(predicate);
         }
 
         public void Save()

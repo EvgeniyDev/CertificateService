@@ -10,5 +10,7 @@ namespace CertificateService.Web.API.Core.Services.Interfaces
         void Update(StudentViewModel student);
         IEnumerable<StudentViewModel> GetStudents();
         StudentViewModel GetStudent(int id);
+        StudentViewModel GetStudent(string name, string surname, string patornymic);
+        StudentViewModel GetStudent(string studentTicketNumber);
     }
 }

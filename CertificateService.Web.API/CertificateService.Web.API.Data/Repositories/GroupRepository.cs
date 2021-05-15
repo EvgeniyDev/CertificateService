@@ -1,8 +1,10 @@
 ﻿using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
@@ -23,7 +25,7 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Delete(int id)
         {
-            var groupToDelete = GetGroupById(id);
+            var groupToDelete = GetGroupByPredicate(g => g.Id == id);
 
             if (groupToDelete != null)
             {
@@ -32,18 +34,11 @@ namespace CertificateService.Web.API.Data.Repositories
             }
         }
 
-        public Group GetGroupById(int id)
+        public Group GetGroupByPredicate(Expression<Func<Group, bool>> predicate)
         {
             return appDBContext.Groups
                 .Include(g => g.Students)
-                .FirstOrDefault(x => x.Id == id);
-        }
-
-        public Group GetGroupByName(string name)
-        {
-            return appDBContext.Groups
-                .Include(g => g.Students)
-                .FirstOrDefault(x => x.Name == name);
+                .FirstOrDefault(predicate);
         }
 
         public IEnumerable<Group> GetGroups()

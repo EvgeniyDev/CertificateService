@@ -17,9 +17,25 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetById(int id)
         {
             var student = studentsService.GetStudent(id);
+
+            return Ok(student);
+        }
+
+        [HttpGet("{name}/{surname}/{patronymic}")]
+        public IActionResult GetByFullName(string name, string surname, string patronymic)
+        {
+            var student = studentsService.GetStudent(name, surname, patronymic);
+
+            return Ok(student);
+        }
+
+        [HttpGet("studentTickets/{studentTicketNumber}")]
+        public IActionResult GetByStudentTicketNumber(string studentTicketNumber)
+        {
+            var student = studentsService.GetStudent(studentTicketNumber);
 
             return Ok(student);
         }

@@ -1,8 +1,10 @@
 ﻿using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
@@ -23,7 +25,7 @@ namespace CertificateService.Web.API.Data.Repositories
 
         public void Delete(int id)
         {
-            var studentToDelete = GetStudentById(id);
+            var studentToDelete = GetStudent(s => s.Id == id);
 
             if (studentToDelete != null)
             {
@@ -34,12 +36,12 @@ namespace CertificateService.Web.API.Data.Repositories
             }
         }
 
-        public Student GetStudentById(int id)
+        public Student GetStudent(Expression<Func<Student, bool>> predicate)
         {
             return appDBContext.Students
                 .Include(s => s.StudentData)
                 .Include(s => s.StudentTicket)
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefault(predicate);
         }
 
         public IEnumerable<Student> GetStudents()

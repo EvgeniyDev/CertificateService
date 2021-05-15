@@ -17,9 +17,17 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetGroupById(int id)
         {
             var group = groupsService.GetGroup(id);
+
+            return Ok(group);
+        }
+
+        [HttpGet("groupNames/{name}")]
+        public IActionResult GetGroupByName(string name)
+        {
+            var group = groupsService.GetGroup(name);
 
             return Ok(group);
         }

@@ -61,11 +61,24 @@ namespace CertificateService.Web.API.Core.Services
 
         public Faculty GetFaculty(int id)
         {
-            var faculty = facultyRepository.GetFacultyById(id);
+            var faculty = facultyRepository.GetFacultyByPredicate(f => f.Id == id);
 
             if (faculty == null)
             {
                 var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Faculty by requested id [{id}] was");
+                throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
+            }
+
+            return faculty;
+        }
+
+        public Faculty GetFacultyByNumber(int number)
+        {
+            var faculty = facultyRepository.GetFacultyByPredicate(f => f.Number == number);
+
+            if (faculty == null)
+            {
+                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Faculty by requested number [{number}] was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
