@@ -3,8 +3,8 @@ using CertificateService.Web.API.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
@@ -17,47 +17,48 @@ namespace CertificateService.Web.API.Data.Repositories
             this.appDBContext = appDBContext;
         }
 
-        public void Add(Group newGroup)
+        public async Task AddAsync(Group newGroup)
         {
-            appDBContext.Groups.Add(newGroup);
-            Save();
+            await appDBContext.Groups.AddAsync(newGroup);
+            await SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var groupToDelete = GetGroupByPredicate(g => g.Id == id);
+            var groupToDelete = await GetGroupByPredicateAsync(g => g.Id == id);
 
             if (groupToDelete != null)
             {
                 appDBContext.Groups.Remove(groupToDelete);
-                Save();
+                await SaveAsync();
             }
         }
 
-        public Group GetGroupByPredicate(Expression<Func<Group, bool>> predicate)
+        public async Task<Group> GetGroupByPredicateAsync(Expression<Func<Group, bool>> predicate)
         {
-            return appDBContext.Groups
+            return await appDBContext.Groups
                 .Include(g => g.Students)
-                .FirstOrDefault(predicate);
+                .FirstOrDefaultAsync(predicate);
         }
 
-        public IEnumerable<Group> GetGroups()
+        public async Task<IEnumerable<Group>> GetGroupsAsync()
         {
-            return appDBContext.Groups
+            return await appDBContext.Groups
                 .Include(g => g.Students).ThenInclude(s => s.StudentData)
                 .Include(g => g.Students).ThenInclude(s => s.StudentTicket)
-                .AsNoTracking();
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            appDBContext.SaveChanges();
+            await appDBContext.SaveChangesAsync();
         }
 
-        public void Update(Group group)
+        public async Task UpdateAsync(Group group)
         {
             appDBContext.Update(group);
-            Save();
+            await SaveAsync();
         }
     }
 }

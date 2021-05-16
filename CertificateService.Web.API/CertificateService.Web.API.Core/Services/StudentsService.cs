@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Resources;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
@@ -22,9 +23,9 @@ namespace CertificateService.Web.API.Core.Services
             resourceManager = new ResourceManager(typeof(ErrorMessages).FullName, typeof(ErrorMessages).Assembly);
         }
 
-        public void Add(AddStudentViewModel newStudent)
+        public async Task AddAsync(AddStudentViewModel newStudent)
         {
-            studentRepository.Add(new Student()
+            await studentRepository.AddAsync(new Student()
             {
                 StudentData = new StudentData()
                 {
@@ -41,16 +42,16 @@ namespace CertificateService.Web.API.Core.Services
             });
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            GetStudent(id);
+            await GetStudentAsync(id);
 
-            studentRepository.Delete(id);
+            await studentRepository.DeleteAsync(id);
         }
 
-        public StudentViewModel GetStudent(int id)
+        public async Task<StudentViewModel> GetStudentAsync(int id)
         {
-            var student = studentRepository.GetStudent(s => s.Id == id);
+            var student = await studentRepository.GetStudentAsync(s => s.Id == id);
 
             if (student == null)
             {
@@ -61,10 +62,10 @@ namespace CertificateService.Web.API.Core.Services
             return MapStudent(student);
         }
 
-        public StudentViewModel GetStudent(string name, string surname, string patornymic)
+        public async Task<StudentViewModel> GetStudentAsync(string name, string surname, string patornymic)
         {
-            var student = studentRepository
-                .GetStudent(s => s.StudentData.Name == name && s.StudentData.Surname == surname && s.StudentData.Patronymic == patornymic);
+            var student = await studentRepository
+                .GetStudentAsync(s => s.StudentData.Name == name && s.StudentData.Surname == surname && s.StudentData.Patronymic == patornymic);
 
             if (student == null)
             {
@@ -75,9 +76,9 @@ namespace CertificateService.Web.API.Core.Services
             return MapStudent(student);
         }
 
-        public StudentViewModel GetStudent(string studentTicketNumber)
+        public async Task<StudentViewModel> GetStudentAsync(string studentTicketNumber)
         {
-            var student = studentRepository.GetStudent(s => s.StudentTicket.Number == studentTicketNumber);
+            var student = await studentRepository.GetStudentAsync(s => s.StudentTicket.Number == studentTicketNumber);
 
             if (student == null)
             {
@@ -88,10 +89,10 @@ namespace CertificateService.Web.API.Core.Services
             return MapStudent(student);
         }
 
-        public IEnumerable<StudentViewModel> GetStudents()
+        public async Task<IEnumerable<StudentViewModel>> GetStudentsAsync()
         {
             var studentViewModels = new List<StudentViewModel>();
-            var students = studentRepository.GetStudents().ToList();
+            var students = (await studentRepository.GetStudentsAsync()).ToList();
 
             if (!students.Any())
             {
@@ -122,9 +123,9 @@ namespace CertificateService.Web.API.Core.Services
             };
         }
 
-        public void Update(StudentViewModel student)
+        public async Task UpdateAsync(StudentViewModel student)
         {
-            var studentInDb = studentRepository.GetStudent(s => s.Id == student.Id);
+            var studentInDb = await studentRepository.GetStudentAsync(s => s.Id == student.Id);
 
             if (studentInDb == null)
             {
@@ -140,7 +141,7 @@ namespace CertificateService.Web.API.Core.Services
             studentInDb.StudentTicket.DateOfIssue = student.StudentTicketDateOfIssue;
             studentInDb.StudentTicket.DateOfExpiry = student.StudentTicketDateOfExpiry;
 
-            studentRepository.Update(studentInDb);
+            await studentRepository.UpdateAsync(studentInDb);
         }
     }
 }

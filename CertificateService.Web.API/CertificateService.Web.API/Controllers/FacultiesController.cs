@@ -2,6 +2,7 @@
 using CertificateService.Web.API.Core.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Controllers
 {
@@ -17,65 +18,65 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetFacultyById(int id)
+        public async Task<IActionResult> GetFacultyById(int id)
         {
-            var faculty = facultiesService.GetFaculty(id);
+            var faculty = await facultiesService.GetFacultyAsync(id);
 
             return Ok(faculty);
         }
 
         [HttpGet("facultyNumbers/{number}")]
-        public IActionResult GetFacultyByNumber(int number)
+        public async Task<IActionResult> GetFacultyByNumber(int number)
         {
-            var faculty = facultiesService.GetFacultyByNumber(number);
+            var faculty = await facultiesService.GetFacultyByNumberAsync(number);
 
             return Ok(faculty);
         }
 
         [HttpGet]
-        public IActionResult GetFaculties()
+        public async Task<IActionResult> GetFaculties()
         {
-            var faculties = facultiesService.GetFaculties();
+            var faculties = await facultiesService.GetFacultiesAsync();
 
             return Ok(faculties);
         }
 
         [HttpPost]
-        public IActionResult Add(AddFacultyViewModel faculty)
+        public async Task<IActionResult> Add(AddFacultyViewModel faculty)
         {
-            facultiesService.Add(faculty);
+            await facultiesService.AddAsync(faculty);
 
             return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPost("groups/{facultyId}")]
-        public IActionResult AddGroupsToFaculty(int facultyId, int[] groupIds)
+        public async Task<IActionResult> AddGroupsToFaculty(int facultyId, int[] groupIds)
         {
-            facultiesService.AddGroupsToFaculty(facultyId, groupIds);
+            await facultiesService.AddGroupsToFacultyAsync(facultyId, groupIds);
 
             return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpDelete("groups/{facultyId}")]
-        public IActionResult RemoveGroupsToFaculty(int facultyId, int[] groupIds)
+        public async Task<IActionResult> RemoveGroupsToFaculty(int facultyId, int[] groupIds)
         {
-            facultiesService.RemoveGroupsFromFaculty(facultyId, groupIds);
+            await facultiesService.RemoveGroupsFromFacultyAsync(facultyId, groupIds);
 
             return NoContent();
         }
 
         [HttpPut]
-        public IActionResult Update(UpdateFacultyViewModel faculty)
+        public async Task<IActionResult> Update(UpdateFacultyViewModel faculty)
         {
-            facultiesService.Update(faculty);
+            await facultiesService.UpdateAsync(faculty);
 
             return Ok(faculty);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            facultiesService.Delete(id);
+            await facultiesService.DeleteAsync(id);
 
             return NoContent();
         }

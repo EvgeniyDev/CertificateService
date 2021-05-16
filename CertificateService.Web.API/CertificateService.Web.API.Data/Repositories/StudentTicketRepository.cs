@@ -1,7 +1,10 @@
 ﻿using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
@@ -14,48 +17,43 @@ namespace CertificateService.Web.API.Data.Repositories
             this.appDBContext = appDBContext;
         }
 
-        public void Add(StudentTicket newStudentTicket)
+        public async Task AddAsync(StudentTicket newStudentTicket)
         {
-            appDBContext.StudentTickets.Add(newStudentTicket);
-            Save();
+            await appDBContext.StudentTickets.AddAsync(newStudentTicket);
+            await SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var studentTicketToDelete = GetStudentTicketById(id);
+            var studentTicketToDelete = await GetStudentTicketByPredicateAsync(st => st.Id == id);
 
             if (studentTicketToDelete != null)
             {
                 appDBContext.StudentTickets.Remove(studentTicketToDelete);
-                Save();
+                await SaveAsync();
             }
         }
 
-        public StudentTicket GetStudentTicketById(int id)
+        public async Task<StudentTicket> GetStudentTicketByPredicateAsync(Expression<Func<StudentTicket, bool>> predicate)
         {
-            return appDBContext.StudentTickets.FirstOrDefault(x => x.Id == id);
+            return await appDBContext.StudentTickets.FirstOrDefaultAsync(predicate);
         }
 
-        public StudentTicket GetStudentTicketByNumber(string number)
+        public async Task<IEnumerable<StudentTicket>> GetStudentTicketsAsync()
         {
-            return appDBContext.StudentTickets.FirstOrDefault(x => x.Number == number);
+            return await appDBContext.StudentTickets.ToListAsync();
         }
 
-        public IEnumerable<StudentTicket> GetStudentTickets()
+        public async Task SaveAsync()
         {
-            return appDBContext.StudentTickets.AsEnumerable();
+            await appDBContext.SaveChangesAsync();
         }
 
-        public void Save()
-        {
-            appDBContext.SaveChanges();
-        }
-
-        public void Update(StudentTicket studentTicket)
+        public async Task UpdateAsync(StudentTicket studentTicket)
         {
             appDBContext.Update(studentTicket);
 
-            Save();
+            await SaveAsync();
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Resources;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
@@ -32,23 +33,23 @@ namespace CertificateService.Web.API.Core.Services
             resourceManager = new ResourceManager(typeof(ErrorMessages).FullName, typeof(ErrorMessages).Assembly);
         }
 
-        public void Add(AddFacultyViewModel newFaculty)
+        public async Task AddAsync(AddFacultyViewModel newFaculty)
         {
             var facultyToAdd = mapper.Map<Faculty>(newFaculty);
 
-            facultyRepository.Add(facultyToAdd);
+            await facultyRepository.AddAsync(facultyToAdd);
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            GetFaculty(id);
+            await GetFacultyAsync(id);
 
-            facultyRepository.Delete(id);
+            await facultyRepository.DeleteAsync(id);
         }
 
-        public IEnumerable<Faculty> GetFaculties()
+        public async Task<IEnumerable<Faculty>> GetFacultiesAsync()
         {
-            var faculties = facultyRepository.GetFaculties();
+            var faculties = await facultyRepository.GetFacultiesAsync();
 
             if (!faculties.Any())
             {
@@ -59,9 +60,9 @@ namespace CertificateService.Web.API.Core.Services
             return faculties;
         }
 
-        public Faculty GetFaculty(int id)
+        public async Task<Faculty> GetFacultyAsync(int id)
         {
-            var faculty = facultyRepository.GetFacultyByPredicate(f => f.Id == id);
+            var faculty = await facultyRepository.GetFacultyByPredicateAsync(f => f.Id == id);
 
             if (faculty == null)
             {
@@ -72,9 +73,9 @@ namespace CertificateService.Web.API.Core.Services
             return faculty;
         }
 
-        public Faculty GetFacultyByNumber(int number)
+        public async Task<Faculty> GetFacultyByNumberAsync(int number)
         {
-            var faculty = facultyRepository.GetFacultyByPredicate(f => f.Number == number);
+            var faculty = await facultyRepository .GetFacultyByPredicateAsync(f => f.Number == number);
 
             if (faculty == null)
             {
@@ -85,22 +86,22 @@ namespace CertificateService.Web.API.Core.Services
             return faculty;
         }
 
-        public void Update(UpdateFacultyViewModel faculty)
+        public async Task UpdateAsync(UpdateFacultyViewModel faculty)
         {
-            GetFaculty(faculty.Id);
+            await GetFacultyAsync(faculty.Id);
 
             var facultyToUpdate = mapper.Map<Faculty>(faculty);
-            facultyRepository.Update(facultyToUpdate);
+            await facultyRepository.UpdateAsync(facultyToUpdate);
         }
 
-        public void AddGroupsToFaculty(int facultyId, int[] groupIds)
+        public async Task AddGroupsToFacultyAsync(int facultyId, int[] groupIds)
         {
-            var faculty = GetFaculty(facultyId);
+            var faculty = await GetFacultyAsync(facultyId);
             var groups = new List<Group>();
 
             foreach (var groupId in groupIds)
             {
-                groups.Add(groupsService.GetGroup(groupId));
+                groups.Add(await groupsService.GetGroupAsync(groupId));
             }
 
             foreach (var group in groups)
@@ -111,17 +112,17 @@ namespace CertificateService.Web.API.Core.Services
                 }
             }
 
-            facultyRepository.Save();
+            await facultyRepository .SaveAsync();
         }
 
-        public void RemoveGroupsFromFaculty(int facultyId, int[] groupIds)
+        public async Task RemoveGroupsFromFacultyAsync(int facultyId, int[] groupIds)
         {
-            var faculty = GetFaculty(facultyId);
+            var faculty = await GetFacultyAsync(facultyId);
             var groups = new List<Group>();
 
             foreach (var groupId in groupIds)
             {
-                groups.Add(groupsService.GetGroup(groupId));
+                groups.Add(await groupsService.GetGroupAsync(groupId));
             }
 
             foreach (var group in groups)
@@ -129,7 +130,7 @@ namespace CertificateService.Web.API.Core.Services
                 faculty.Groups.Remove(group);
             }
 
-            facultyRepository.Save();
+            await facultyRepository.SaveAsync();
         }
     }
 }

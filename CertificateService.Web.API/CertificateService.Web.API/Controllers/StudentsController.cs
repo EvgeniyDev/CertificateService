@@ -2,6 +2,7 @@
 using CertificateService.Web.API.Core.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Controllers
 {
@@ -17,57 +18,57 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var student = studentsService.GetStudent(id);
+            var student = await studentsService.GetStudentAsync(id);
 
             return Ok(student);
         }
 
         [HttpGet("{name}/{surname}/{patronymic}")]
-        public IActionResult GetByFullName(string name, string surname, string patronymic)
+        public async Task<IActionResult> GetByFullName(string name, string surname, string patronymic)
         {
-            var student = studentsService.GetStudent(name, surname, patronymic);
+            var student = await studentsService.GetStudentAsync(name, surname, patronymic);
 
             return Ok(student);
         }
 
         [HttpGet("studentTickets/{studentTicketNumber}")]
-        public IActionResult GetByStudentTicketNumber(string studentTicketNumber)
+        public async Task<IActionResult> GetByStudentTicketNumber(string studentTicketNumber)
         {
-            var student = studentsService.GetStudent(studentTicketNumber);
+            var student = await studentsService.GetStudentAsync(studentTicketNumber);
 
             return Ok(student);
         }
 
         [HttpGet]
-        public IActionResult GetStudents()
+        public async Task<IActionResult> GetStudents()
         {
-            var students = studentsService.GetStudents();
+            var students = await studentsService.GetStudentsAsync();
 
             return Ok(students);
         }
 
         [HttpPost]
-        public IActionResult Add(AddStudentViewModel student)
+        public async Task<IActionResult> Add(AddStudentViewModel student)
         {
-            studentsService.Add(student);
+            await studentsService.AddAsync(student);
 
             return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]
-        public IActionResult Update(StudentViewModel student)
+        public async Task<IActionResult> Update(StudentViewModel student)
         {
-            studentsService.Update(student);
+            await studentsService.UpdateAsync(student);
 
             return Ok(student);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            studentsService.Delete(id);
+            await studentsService.DeleteAsync(id);
 
             return NoContent();
         }

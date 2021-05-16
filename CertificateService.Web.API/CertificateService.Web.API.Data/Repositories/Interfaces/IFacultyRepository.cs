@@ -2,16 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Data.Repositories.Interfaces
 {
     public interface IFacultyRepository
     {
-        public IEnumerable<Faculty> GetFaculties();
-        public Faculty GetFacultyByPredicate(Expression<Func<Faculty, bool>> predicate);
-        public void Add(Faculty newFaculty);
-        public void Update(Faculty faculty);
-        public void Delete(int id);
-        public void Save();
+        Task<IEnumerable<Faculty>> GetFacultiesAsync();
+        Task<Faculty> GetFacultyByPredicateAsync(Expression<Func<Faculty, bool>> predicate);
+        Task AddAsync(Faculty newFaculty);
+        Task UpdateAsync(Faculty faculty);
+        Task DeleteAsync(int id);
+        Task SaveAsync();
     }
 }

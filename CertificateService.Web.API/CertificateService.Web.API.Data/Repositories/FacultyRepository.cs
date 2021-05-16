@@ -3,8 +3,8 @@ using CertificateService.Web.API.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
@@ -17,48 +17,50 @@ namespace CertificateService.Web.API.Data.Repositories
             this.appDBContext = appDBContext;
         }
 
-        public void Add(Faculty newFaculty)
+        public async Task AddAsync(Faculty newFaculty)
         {
-            appDBContext.Faculties.Add(newFaculty);
-            Save();
+            await appDBContext.Faculties.AddAsync(newFaculty);
+
+            await SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var facultyToDelete = GetFacultyByPredicate(f => f.Id == id);
+            var facultyToDelete = await GetFacultyByPredicateAsync(f => f.Id == id);
 
             if (facultyToDelete != null)
             {
                 appDBContext.Faculties.Remove(facultyToDelete);
-                Save();
+                await SaveAsync();
             }
         }
 
-        public IEnumerable<Faculty> GetFaculties()
+        public async Task<IEnumerable<Faculty>> GetFacultiesAsync()
         {
-            return appDBContext.Faculties
+            return await appDBContext.Faculties
                 .Include(f => f.Groups).ThenInclude(g => g.Students).ThenInclude(s => s.StudentData)
                 .Include(f => f.Groups).ThenInclude(g => g.Students).ThenInclude(s => s.StudentTicket)
-                .AsNoTracking();
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public Faculty GetFacultyByPredicate(Expression<Func<Faculty, bool>> predicate)
+        public async Task<Faculty> GetFacultyByPredicateAsync(Expression<Func<Faculty, bool>> predicate)
         {
-            return appDBContext.Faculties
+            return await appDBContext.Faculties
                 .Include(f => f.Groups)
-                .FirstOrDefault(predicate);
+                .FirstOrDefaultAsync(predicate);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            appDBContext.SaveChanges();
+            await appDBContext.SaveChangesAsync();
         }
 
-        public void Update(Faculty faculty)
+        public async Task UpdateAsync(Faculty faculty)
         {
             appDBContext.Update(faculty);
 
-            Save();
+            await SaveAsync();
         }
     }
 }

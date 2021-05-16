@@ -2,6 +2,7 @@
 using CertificateService.Web.API.Core.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Controllers
 {
@@ -17,65 +18,65 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetGroupById(int id)
+        public async Task<IActionResult> GetGroupById(int id)
         {
-            var group = groupsService.GetGroup(id);
+            var group = await groupsService.GetGroupAsync(id);
 
             return Ok(group);
         }
 
         [HttpGet("groupNames/{name}")]
-        public IActionResult GetGroupByName(string name)
+        public async Task<IActionResult> GetGroupByName(string name)
         {
-            var group = groupsService.GetGroup(name);
+            var group = await groupsService.GetGroupAsync(name);
 
             return Ok(group);
         }
 
         [HttpGet]
-        public IActionResult GetGroups()
+        public async Task<IActionResult> GetGroups()
         {
-            var groups = groupsService.GetGroups();
+            var groups = await groupsService.GetGroupsAsync();
 
             return Ok(groups);
         }
 
         [HttpPost]
-        public IActionResult Add(AddGroupViewModel group)
+        public async Task<IActionResult> Add(AddGroupViewModel group)
         {
-            groupsService.Add(group);
+            await groupsService.AddAsync(group);
 
             return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPost("students/{groupId}")]
-        public IActionResult AddGroupsToFaculty(int groupId, int[] studentIds)
+        public async Task<IActionResult> AddGroupsToFaculty(int groupId, int[] studentIds)
         {
-            groupsService.AddStudentsToGroup(groupId, studentIds);
+            await groupsService.AddStudentsToGroupAsync(groupId, studentIds);
 
             return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpDelete("students/{groupId}")]
-        public IActionResult RemoveGroupsToFaculty(int groupId, int[] studentIds)
+        public async Task<IActionResult> RemoveGroupsToFaculty(int groupId, int[] studentIds)
         {
-            groupsService.RemoveStudentsFromGroup(groupId, studentIds);
+            await groupsService.RemoveStudentsFromGroupAsync(groupId, studentIds);
 
             return NoContent();
         }
 
         [HttpPut]
-        public IActionResult Update(UpdateGroupViewModel group)
+        public async Task<IActionResult> Update(UpdateGroupViewModel group)
         {
-            groupsService.Update(group);
+            await groupsService.UpdateAsync(group);
 
             return Ok(group);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            groupsService.Delete(id);
+            await groupsService.DeleteAsync(id);
 
             return NoContent();
         }

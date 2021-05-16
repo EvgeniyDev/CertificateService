@@ -3,8 +3,8 @@ using CertificateService.Web.API.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
@@ -17,50 +17,51 @@ namespace CertificateService.Web.API.Data.Repositories
             this.appDBContext = appDBContext;
         }
 
-        public void Add(Student newStudent)
+        public async Task AddAsync(Student newStudent)
         {
-            appDBContext.Students.Add(newStudent);
-            Save();
+            await appDBContext.Students.AddAsync(newStudent);
+            await SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var studentToDelete = GetStudent(s => s.Id == id);
+            var studentToDelete = await GetStudentAsync(s => s.Id == id);
 
             if (studentToDelete != null)
             {
                 appDBContext.StudentDatas.Remove(studentToDelete.StudentData);
                 appDBContext.StudentTickets.Remove(studentToDelete.StudentTicket);
                 appDBContext.Students.Remove(studentToDelete);
-                Save();
+                await SaveAsync();
             }
         }
 
-        public Student GetStudent(Expression<Func<Student, bool>> predicate)
+        public async Task<Student> GetStudentAsync(Expression<Func<Student, bool>> predicate)
         {
-            return appDBContext.Students
+            return await appDBContext.Students
                 .Include(s => s.StudentData)
                 .Include(s => s.StudentTicket)
-                .FirstOrDefault(predicate);
+                .FirstOrDefaultAsync(predicate);
         }
 
-        public IEnumerable<Student> GetStudents()
+        public async Task<IEnumerable<Student>> GetStudentsAsync()
         {
-            return appDBContext.Students
+            return await appDBContext.Students
                 .Include(s => s.StudentData)
                 .Include(s => s.StudentTicket)
-                .AsNoTracking();
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            appDBContext.SaveChanges();
+            await appDBContext.SaveChangesAsync();
         }
 
-        public void Update(Student student)
+        public async Task UpdateAsync(Student student)
         {
             appDBContext.Update(student);
-            Save();
+            await SaveAsync();
         }
     }
 }

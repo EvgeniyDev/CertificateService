@@ -1,7 +1,10 @@
 ﻿using CertificateService.Web.API.Data.Models;
 using CertificateService.Web.API.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
@@ -14,47 +17,42 @@ namespace CertificateService.Web.API.Data.Repositories
             this.appDBContext = appDBContext;
         }
 
-        public void Add(StudentData newStudentData)
+        public async Task AddAsync(StudentData newStudentData)
         {
-            appDBContext.StudentDatas.Add(newStudentData);
-            Save();
+            await appDBContext.StudentDatas.AddAsync(newStudentData);
+            await SaveAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var studentDataToDelete = GetStudentDataById(id);
+            var studentDataToDelete = await GetStudentDataByPredicateAsync(sd => sd.Id == id);
 
             if (studentDataToDelete != null)
             {
                 appDBContext.StudentDatas.Remove(studentDataToDelete);
-                Save();
+                await SaveAsync();
             }
         }
 
-        public StudentData GetStudentDataByFullName(string name, string surname, string patronymic)
+        public async Task<StudentData> GetStudentDataByPredicateAsync(Expression<Func<StudentData, bool>> predicate)
         {
-            return appDBContext.StudentDatas.FirstOrDefault(x => x.Name == name && x.Surname == surname && x.Patronymic == patronymic);
+            return await appDBContext.StudentDatas.FirstOrDefaultAsync(predicate);
         }
 
-        public StudentData GetStudentDataById(int id)
+        public async Task<IEnumerable<StudentData>> GetStudentDatasAsync()
         {
-            return appDBContext.StudentDatas.FirstOrDefault(x => x.Id == id);
+            return await appDBContext.StudentDatas.ToListAsync();
         }
 
-        public IEnumerable<StudentData> GetStudentDatas()
+        public async Task SaveAsync()
         {
-            return appDBContext.StudentDatas.AsEnumerable();
+            await appDBContext.SaveChangesAsync();
         }
 
-        public void Save()
-        {
-            appDBContext.SaveChanges();
-        }
-
-        public void Update(StudentData studentData)
+        public async Task UpdateAsync(StudentData studentData)
         {
             appDBContext.Update(studentData);
-            Save();
+            await SaveAsync();
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Resources;
+using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
@@ -32,22 +33,22 @@ namespace CertificateService.Web.API.Core.Services
             resourceManager = new ResourceManager(typeof(ErrorMessages).FullName, typeof(ErrorMessages).Assembly);
         }
 
-        public void Add(AddGroupViewModel newGroup)
+        public async Task AddAsync(AddGroupViewModel newGroup)
         {
             var groupToAdd = mapper.Map<Group>(newGroup);
-            groupRepository.Add(groupToAdd);
+            await groupRepository.AddAsync(groupToAdd);
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            GetGroup(id);
+            await GetGroupAsync(id);
 
-            groupRepository.Delete(id);
+            await groupRepository.DeleteAsync(id);
         }
 
-        public Group GetGroup(int id)
+        public async Task<Group> GetGroupAsync(int id)
         {
-            var group = groupRepository.GetGroupByPredicate(g => g.Id == id);
+            var group = await groupRepository.GetGroupByPredicateAsync(g => g.Id == id);
 
             if (group == null)
             {
@@ -58,9 +59,9 @@ namespace CertificateService.Web.API.Core.Services
             return group;
         }
 
-        public Group GetGroup(string groupName)
+        public async Task<Group> GetGroupAsync(string groupName)
         {
-            var group = groupRepository.GetGroupByPredicate(g => g.Name == groupName);
+            var group = await groupRepository.GetGroupByPredicateAsync(g => g.Name == groupName);
 
             if (group == null)
             {
@@ -71,9 +72,9 @@ namespace CertificateService.Web.API.Core.Services
             return group;
         }
 
-        public IEnumerable<Group> GetGroups()
+        public async Task<IEnumerable<Group>> GetGroupsAsync()
         {
-            var groups = groupRepository.GetGroups();
+            var groups = await groupRepository.GetGroupsAsync();
 
             if (!groups.Any())
             {
@@ -84,22 +85,22 @@ namespace CertificateService.Web.API.Core.Services
             return groups;
         }
 
-        public void Update(UpdateGroupViewModel group)
+        public async Task UpdateAsync(UpdateGroupViewModel group)
         {
-            GetGroup(group.Id);
+            await GetGroupAsync(group.Id);
 
             var groupToUpdate = mapper.Map<Group>(group);
-            groupRepository.Update(groupToUpdate);
+            await groupRepository.UpdateAsync(groupToUpdate);
         }
 
-        public void AddStudentsToGroup(int groupId, int[] studentIds)
+        public async Task AddStudentsToGroupAsync(int groupId, int[] studentIds)
         {
-            var group = GetGroup(groupId);
+            var group = await GetGroupAsync(groupId);
             var students = new List<Student>();
 
             foreach (var studentId in studentIds)
             {
-                var studentToAdd = studentsRepository.GetStudent(s => s.Id == studentId);
+                var studentToAdd = await studentsRepository.GetStudentAsync(s => s.Id == studentId);
 
                 if (studentToAdd == null)
                 {
@@ -118,17 +119,17 @@ namespace CertificateService.Web.API.Core.Services
                 }
             }
 
-            groupRepository.Save();
+            await groupRepository.SaveAsync();
         }
 
-        public void RemoveStudentsFromGroup(int groupId, int[] studentIds)
+        public async Task RemoveStudentsFromGroupAsync(int groupId, int[] studentIds)
         {
-            var group = GetGroup(groupId);
+            var group = await GetGroupAsync(groupId);
             var students = new List<Student>();
 
             foreach (var studentId in studentIds)
             {
-                var studentToAdd = studentsRepository.GetStudent(s => s.Id == studentId);
+                var studentToAdd = await studentsRepository.GetStudentAsync(s => s.Id == studentId);
 
                 if (studentToAdd == null)
                 {
@@ -144,7 +145,7 @@ namespace CertificateService.Web.API.Core.Services
                 group.Students.Remove(student);
             }
 
-            groupRepository.Save();
+            await groupRepository.SaveAsync();
         }
     }
 }
