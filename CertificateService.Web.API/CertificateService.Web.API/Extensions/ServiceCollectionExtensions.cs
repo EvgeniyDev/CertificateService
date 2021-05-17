@@ -19,6 +19,7 @@ namespace CertificateService.Web.API.Extensions
             services.AddTransient<IGroupsService, GroupsService>();
             services.AddTransient<IFacultiesService, FacultiesService>();
             services.AddTransient<IStudentsService, StudentsService>();
+            services.AddTransient<ICertificatesService, CertificatesService>();
         }
     }
 }

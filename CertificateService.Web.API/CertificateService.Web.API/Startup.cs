@@ -1,4 +1,5 @@
 using CertificateService.Web.API.Core.Mapper;
+using CertificateService.Web.API.Core.ViewModels;
 using CertificateService.Web.API.Data;
 using CertificateService.Web.API.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -27,8 +28,12 @@ namespace CertificateService.Web.API
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDBContext>(options => options.UseSqlServer(connectionString));
 
+            services.Configure<CertificateViewModel>(Configuration.GetSection(nameof(CertificateViewModel)));
+
             services.AddAutoMapper(config => config.AddProfile(new MappingProfile()), typeof(Startup));
+
             services.ServiceInjection();
+
             services.AddControllers()
                 .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
