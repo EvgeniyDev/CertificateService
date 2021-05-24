@@ -58,7 +58,7 @@ namespace CertificateService.Web.API.Controllers
         }
 
         [HttpDelete("groups/{facultyId}")]
-        public async Task<IActionResult> RemoveGroupsToFaculty(int facultyId, int[] groupIds)
+        public async Task<IActionResult> RemoveGroupsFromFaculty(int facultyId, int[] groupIds)
         {
             await facultiesService.RemoveGroupsFromFacultyAsync(facultyId, groupIds);
 
