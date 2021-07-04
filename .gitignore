@@ -35,3 +35,9 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+
+# Certificate template
+Template.docx
+
+# Cfg file with azure db connection
+appsettings.json

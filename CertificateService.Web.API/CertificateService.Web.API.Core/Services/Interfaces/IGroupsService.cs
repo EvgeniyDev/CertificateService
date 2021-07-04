@@ -15,5 +15,6 @@ namespace CertificateService.Web.API.Core.Services.Interfaces
         Task<Group> GetGroupAsync(string groupName);
         Task AddStudentsToGroupAsync(int groupId, int[] studentIds);
         Task RemoveStudentsFromGroupAsync(int groupId, int[] studentIds);
+        Task<Group> GetStudentGroupName(int studentId);
     }
 }

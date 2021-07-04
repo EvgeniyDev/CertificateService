@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Syncfusion.DocIO.Net.Core" Version="19.1.0.63" />
+    <PackageReference Include="Syncfusion.DocIORenderer.Net.Core" Version="19.1.0.63" />
   </ItemGroup>
 
   <ItemGroup>

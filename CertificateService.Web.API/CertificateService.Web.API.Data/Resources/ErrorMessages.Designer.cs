@@ -61,6 +61,15 @@ namespace CertificateService.Web.API.Data.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} not added to any group..
+        /// </summary>
+        internal static string NotAddedToAnyGroup {
+            get {
+                return ResourceManager.GetString("NotAddedToAnyGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} not found..
         /// </summary>
         internal static string NotFound {

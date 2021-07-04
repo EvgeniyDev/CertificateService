@@ -147,5 +147,19 @@ namespace CertificateService.Web.API.Core.Services
 
             await groupRepository.SaveAsync();
         }
+
+        public async Task<Group> GetStudentGroupName(int studentId)
+        {
+            var groups = await GetGroupsAsync();
+            var groupWithStudent = groups.FirstOrDefault(g => g.Students.Any(s => s.Id == studentId));
+
+            if (groupWithStudent == null)
+            {
+                var errorMessage = string.Format(resourceManager.GetString("NotAddedToAnyGroup"), $"Student with id [{studentId}] is");
+                throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
+            }
+
+            return groupWithStudent;
+        }
     }
 }

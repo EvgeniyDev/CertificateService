@@ -112,7 +112,7 @@ namespace CertificateService.Web.API.Core.Services
                 }
             }
 
-            await facultyRepository .SaveAsync();
+            await facultyRepository.SaveAsync();
         }
 
         public async Task RemoveGroupsFromFacultyAsync(int facultyId, int[] groupIds)
