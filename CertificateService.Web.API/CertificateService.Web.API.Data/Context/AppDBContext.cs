@@ -1,7 +1,8 @@
 ﻿using CertificateService.Web.API.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
-namespace CertificateService.Web.API.Data
+namespace CertificateService.Web.API.Data.Context
 {
     public class AppDBContext : DbContext
     {
@@ -14,6 +15,11 @@ namespace CertificateService.Web.API.Data
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

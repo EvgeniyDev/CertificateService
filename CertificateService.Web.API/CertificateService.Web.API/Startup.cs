@@ -1,6 +1,6 @@
 using CertificateService.Web.API.Core.Mapper;
 using CertificateService.Web.API.Core.ViewModels;
-using CertificateService.Web.API.Data;
+using CertificateService.Web.API.Data.Context;
 using CertificateService.Web.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +42,8 @@ namespace CertificateService.Web.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.EnsureMigrationOfContext<AppDBContext>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
