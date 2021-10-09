@@ -8,15 +8,12 @@ using CertificateService.Web.API.Data.Resources;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Resources;
 using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
     public class FacultiesService : IFacultiesService
     {
-        private readonly ResourceManager resourceManager;
-
         private readonly IMapper mapper;
         private readonly IFacultyRepository facultyRepository;
         private readonly IGroupsService groupsService;
@@ -29,8 +26,6 @@ namespace CertificateService.Web.API.Core.Services
             this.mapper = mapper;
             this.facultyRepository = facultyRepository;
             this.groupsService = groupsService;
-
-            resourceManager = new ResourceManager(typeof(ErrorMessages).FullName, typeof(ErrorMessages).Assembly);
         }
 
         public async Task AddAsync(AddFacultyViewModel newFaculty)
@@ -53,7 +48,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (!faculties.Any())
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Faculties were");
+                var errorMessage = string.Format(ErrorMessages.NotFound, "Faculties were");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -66,7 +61,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (faculty == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Faculty by requested id [{id}] was");
+                var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Faculty)} by requested id '{id}' was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -79,7 +74,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (faculty == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Faculty by requested number [{number}] was");
+                var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Faculty)} by requested number '{number}' was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 

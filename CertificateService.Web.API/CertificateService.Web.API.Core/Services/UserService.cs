@@ -8,15 +8,12 @@ using CertificateService.Web.API.Data.Repositories.Interfaces;
 using CertificateService.Web.API.Data.Resources;
 using System.Collections.Generic;
 using System.Net;
-using System.Resources;
 using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly ResourceManager resourceManager;
-
         private readonly IMapper mapper;
         private readonly IUserRepository userRepository;
         private readonly IJwtTokenProviderService jwtTokenProviderService;
@@ -26,8 +23,6 @@ namespace CertificateService.Web.API.Core.Services
             this.mapper = mapper;
             this.userRepository = userRepository;
             this.jwtTokenProviderService = jwtTokenProviderService;
-
-            resourceManager = new ResourceManager(typeof(ErrorMessages).FullName, typeof(ErrorMessages).Assembly);
         }
 
         public async Task<UserViewModel> Authenticate(string username, string password)
@@ -37,7 +32,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (user == null)
             {
-                var message = string.Format(resourceManager.GetString("NotFound"), $"{typeof(User)} by requested username [{username}] was");
+                var message = string.Format(ErrorMessages.NotFound, $"{typeof(User)} by requested username '{username}' was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, message);
             }
 
@@ -60,7 +55,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (user == null)
             {
-                var message = string.Format(resourceManager.GetString("NotFound"), $"{typeof(User)} by requested id [{id}] was");
+                var message = string.Format(ErrorMessages.NotFound, $"{typeof(User)} by requested id '{id}' was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, message);
             }
 

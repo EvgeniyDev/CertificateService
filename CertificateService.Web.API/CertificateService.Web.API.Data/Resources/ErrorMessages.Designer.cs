@@ -36,7 +36,7 @@ namespace CertificateService.Web.API.Data.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CertificateService.Web.API.Data.Resources.ErrorMessages", typeof(ErrorMessages).Assembly);
@@ -51,7 +51,7 @@ namespace CertificateService.Web.API.Data.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace CertificateService.Web.API.Data.Resources {
         /// <summary>
         ///   Looks up a localized string similar to {0} not added to any group..
         /// </summary>
-        internal static string NotAddedToAnyGroup {
+        public static string NotAddedToAnyGroup {
             get {
                 return ResourceManager.GetString("NotAddedToAnyGroup", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace CertificateService.Web.API.Data.Resources {
         /// <summary>
         ///   Looks up a localized string similar to {0} not found..
         /// </summary>
-        internal static string NotFound {
+        public static string NotFound {
             get {
                 return ResourceManager.GetString("NotFound", resourceCulture);
             }

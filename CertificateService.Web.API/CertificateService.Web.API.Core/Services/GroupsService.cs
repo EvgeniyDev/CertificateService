@@ -8,15 +8,12 @@ using CertificateService.Web.API.Data.Resources;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Resources;
 using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
     public class GroupsService : IGroupsService
     {
-        private readonly ResourceManager resourceManager;
-
         private readonly IMapper mapper;
         private readonly IGroupRepository groupRepository;
         private readonly IStudentRepository studentsRepository;
@@ -29,8 +26,6 @@ namespace CertificateService.Web.API.Core.Services
             this.mapper = mapper;
             this.groupRepository = groupRepository;
             this.studentsRepository = studentsRepository;
-
-            resourceManager = new ResourceManager(typeof(ErrorMessages).FullName, typeof(ErrorMessages).Assembly);
         }
 
         public async Task AddAsync(AddGroupViewModel newGroup)
@@ -52,7 +47,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (group == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"{nameof(Group)} by requested id [{id}] was");
+                var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Group)} by requested id '{id}' was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -65,7 +60,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (group == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Group by requested name [{groupName}] was");
+                var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Group)} by requested name '{groupName}' was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -78,7 +73,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (!groups.Any())
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Groups were");
+                var errorMessage = string.Format(ErrorMessages.NotFound, "Groups were");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -104,7 +99,7 @@ namespace CertificateService.Web.API.Core.Services
 
                 if (studentToAdd == null)
                 {
-                    var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Student by requested id [{studentId}] was");
+                    var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Student)} by requested id '{studentId}' was");
                     throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
                 }
 
@@ -133,7 +128,7 @@ namespace CertificateService.Web.API.Core.Services
 
                 if (studentToAdd == null)
                 {
-                    var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Student by requested id [{studentId}] was");
+                    var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Student)} by requested id '{studentId}' was");
                     throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
                 }
 
@@ -155,7 +150,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (groupWithStudent == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotAddedToAnyGroup"), $"Student with id [{studentId}] is");
+                var errorMessage = string.Format(ErrorMessages.NotAddedToAnyGroup, $"{nameof(Student)} with id '{studentId}' is");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 

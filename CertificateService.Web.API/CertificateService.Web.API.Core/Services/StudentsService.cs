@@ -7,20 +7,17 @@ using CertificateService.Web.API.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Resources;
 using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
     public class StudentsService : IStudentsService
     {
-        private readonly ResourceManager resourceManager;
         private readonly IStudentRepository studentRepository;
 
         public StudentsService(IStudentRepository studentRepository)
         {
             this.studentRepository = studentRepository;
-            resourceManager = new ResourceManager(typeof(ErrorMessages).FullName, typeof(ErrorMessages).Assembly);
         }
 
         public async Task AddAsync(AddStudentViewModel newStudent)
@@ -55,7 +52,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (student == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Student by requested id [{id}] was");
+                var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Student)} by requested id '{id}' was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -69,7 +66,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (student == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Student by requested full name [{name}, {surname}, {patornymic}] was");
+                var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Student)} by requested full name '{name}, {surname}, {patornymic}' was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -82,7 +79,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (student == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), $"Student by requested student ticket number [{studentTicketNumber}] was");
+                var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Student)} by requested student ticket number '{studentTicketNumber}' was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -96,7 +93,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (!students.Any())
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Students were");
+                var errorMessage = string.Format(ErrorMessages.NotFound, "Students were");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
@@ -129,7 +126,7 @@ namespace CertificateService.Web.API.Core.Services
 
             if (studentInDb == null)
             {
-                var errorMessage = string.Format(resourceManager.GetString("NotFound"), "Student by requested id was");
+                var errorMessage = string.Format(ErrorMessages.NotFound, $"{nameof(Student)} by requested id was");
                 throw new HttpStatusException(HttpStatusCode.NotFound, errorMessage);
             }
 
