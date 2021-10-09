@@ -12,6 +12,7 @@ namespace CertificateService.Web.API.Core.Services
 {
     public class JwtTokenProviderService : IJwtTokenProviderService
     {
+        private const string TokenType = "Bearer ";
         private readonly AuthorizationModel authorizationModel;
 
         public JwtTokenProviderService(IOptions<AuthorizationModel> authorizationModel)
@@ -36,7 +37,7 @@ namespace CertificateService.Web.API.Core.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return TokenType + tokenHandler.WriteToken(token);
         }
     }
 }
