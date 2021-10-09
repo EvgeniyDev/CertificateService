@@ -9,24 +9,31 @@ using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
+    /// <inheritdoc cref="IUserRepository"/>
     public class UserRepository : IUserRepository
     {
         private readonly AppDBContext appDBContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class.
+        /// </summary>
+        /// <param name="appDBContext"><see cref="AppDBContext"/>.</param>
         public UserRepository(AppDBContext appDBContext)
         {
             this.appDBContext = appDBContext;
         }
 
-        public async Task Create(User user)
+        /// <inheritdoc/>
+        public async Task CreateAsync(User user)
         {
             await appDBContext.Users.AddAsync(user);
             await SaveAsync();
         }
 
-        public async Task Delete(int id)
+        /// <inheritdoc/>
+        public async Task DeleteAsync(int id)
         {
-            var user = await GetByPredicate(u => u.Id == id);
+            var user = await GetByPredicateAsync(u => u.Id == id);
 
             if (user != null)
             {
@@ -35,22 +42,26 @@ namespace CertificateService.Web.API.Data.Repositories
             }
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        /// <inheritdoc/>
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await appDBContext.Users.AsNoTracking().ToListAsync();
         }
 
-        public async Task<User> GetByPredicate(Expression<Func<User, bool>> predicate)
+        /// <inheritdoc/>
+        public async Task<User> GetByPredicateAsync(Expression<Func<User, bool>> predicate)
         {
             return await appDBContext.Users.FirstOrDefaultAsync(predicate);
         }
 
+        /// <inheritdoc/>
         public async Task SaveAsync()
         {
             await appDBContext.SaveChangesAsync();
         }
 
-        public async Task Update(User user)
+        /// <inheritdoc/>
+        public async Task UpdateAsync(User user)
         {
             appDBContext.Users.Update(user);
             await SaveAsync();

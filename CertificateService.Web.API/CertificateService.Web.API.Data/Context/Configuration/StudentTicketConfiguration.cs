@@ -4,8 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CertificateService.Web.API.Data.Context.Configuration
 {
+    /// <summary>
+    /// Configuration of table in DB related to <see cref="StudentTicket"/>.
+    /// </summary>
     public class StudentTicketConfiguration : IEntityTypeConfiguration<StudentTicket>
     {
+        /// <summary>
+        /// Sets configration for table in DB related to <see cref="StudentTicket"/>.
+        /// </summary>
+        /// <param name="builder"><see cref="EntityTypeBuilder{StudentTicket}"/>.</param>
         public void Configure(EntityTypeBuilder<StudentTicket> builder)
         {
             builder.Property(st => st.Id)

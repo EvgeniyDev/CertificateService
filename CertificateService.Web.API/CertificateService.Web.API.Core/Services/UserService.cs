@@ -28,7 +28,7 @@ namespace CertificateService.Web.API.Core.Services
         public async Task<UserViewModel> Authenticate(string username, string password)
         {
             // TODO: Hash password
-            var user = await userRepository.GetByPredicate(u => u.Username.Equals(username) && u.Password.Equals(password));
+            var user = await userRepository.GetByPredicateAsync(u => u.Username.Equals(username) && u.Password.Equals(password));
 
             if (user == null)
             {
@@ -44,14 +44,14 @@ namespace CertificateService.Web.API.Core.Services
 
         public async Task<IEnumerable<UserViewModel>> GetAll()
         {
-            var users = await userRepository.GetAll();
+            var users = await userRepository.GetAllAsync();
 
             return mapper.Map<IEnumerable<UserViewModel>>(users).WithoutPasswords();
         }
 
         public async Task<UserViewModel> GetById(int id)
         {
-            var user = await userRepository.GetByPredicate(u => u.Id == id);
+            var user = await userRepository.GetByPredicateAsync(u => u.Id == id);
 
             if (user == null)
             {

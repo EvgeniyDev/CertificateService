@@ -9,21 +9,28 @@ using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Data.Repositories
 {
+    /// <inheritdoc cref="IGroupRepository"/>
     public class GroupRepository : IGroupRepository
     {
         private readonly AppDBContext appDBContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GroupRepository"/> class.
+        /// </summary>
+        /// <param name="appDBContext"><see cref="AppDBContext"/>.</param>
         public GroupRepository(AppDBContext appDBContext)
         {
             this.appDBContext = appDBContext;
         }
 
+        /// <inheritdoc/>
         public async Task AddAsync(Group newGroup)
         {
             await appDBContext.Groups.AddAsync(newGroup);
             await SaveAsync();
         }
 
+        /// <inheritdoc/>
         public async Task DeleteAsync(int id)
         {
             var groupToDelete = await GetGroupByPredicateAsync(g => g.Id == id);
@@ -35,6 +42,7 @@ namespace CertificateService.Web.API.Data.Repositories
             }
         }
 
+        /// <inheritdoc/>
         public async Task<Group> GetGroupByPredicateAsync(Expression<Func<Group, bool>> predicate)
         {
             return await appDBContext.Groups
@@ -42,6 +50,7 @@ namespace CertificateService.Web.API.Data.Repositories
                 .FirstOrDefaultAsync(predicate);
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Group>> GetGroupsAsync()
         {
             return await appDBContext.Groups
@@ -51,11 +60,13 @@ namespace CertificateService.Web.API.Data.Repositories
                 .ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task SaveAsync()
         {
             await appDBContext.SaveChangesAsync();
         }
 
+        /// <inheritdoc/>
         public async Task UpdateAsync(Group group)
         {
             appDBContext.Update(group);
