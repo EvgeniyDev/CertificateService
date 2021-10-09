@@ -4,6 +4,12 @@ namespace CertificateService.Web.API.Data.Resources
 {
     public class Constants
     {
+        public class Role
+        {
+            public const string Admin = "Admin";
+            public const string User = "User";
+        }
+
         public class OutputData
         {
             public const string ContentType = "application/octet-stream";

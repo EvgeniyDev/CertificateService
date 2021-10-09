@@ -1,5 +1,7 @@
 ﻿using CertificateService.Web.API.Core.Services.Interfaces;
 using CertificateService.Web.API.Core.ViewModels;
+using CertificateService.Web.API.Data.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -7,6 +9,7 @@ using System.Threading.Tasks;
 namespace CertificateService.Web.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = Constants.Role.Admin)]
     [ApiController]
     public class GroupsController : ControllerBase
     {

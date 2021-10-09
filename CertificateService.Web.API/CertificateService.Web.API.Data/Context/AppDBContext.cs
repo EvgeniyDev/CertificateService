@@ -11,6 +11,7 @@ namespace CertificateService.Web.API.Data.Context
         public DbSet<StudentTicket> StudentTickets { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
