@@ -1,4 +1,4 @@
-﻿using CertificateService.Web.API.CustomExceptionMiddleware;
+﻿using CertificateService.Web.API.Middlewares;
 using Microsoft.AspNetCore.Builder;
 
 namespace CertificateService.Web.API.Extensions

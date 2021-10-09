@@ -3,7 +3,7 @@ using CertificateService.Web.API.Models;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-namespace CertificateService.Web.API.CustomExceptionMiddleware
+namespace CertificateService.Web.API.Middlewares
 {
     public class ExceptionMiddleware
     {
