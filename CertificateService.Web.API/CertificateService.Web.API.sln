@@ -3,19 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateService.Web.API", "CertificateService.Web.API\CertificateService.Web.API.csproj", "{1780B063-EC3C-4F9B-8B96-FCAF0858E9B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateService.Web.API", "CertificateService.Web.API\CertificateService.Web.API.csproj", "{1780B063-EC3C-4F9B-8B96-FCAF0858E9B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateService.Web.API.Core", "CertificateService.Web.API.Core\CertificateService.Web.API.Core.csproj", "{B5E633FB-6C35-494F-997E-FEB9394A9DA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateService.Web.API.Core", "CertificateService.Web.API.Core\CertificateService.Web.API.Core.csproj", "{B5E633FB-6C35-494F-997E-FEB9394A9DA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateService.Web.API.Data", "CertificateService.Web.API.Data\CertificateService.Web.API.Data.csproj", "{91FF5473-2F9B-4B3C-BD57-C121E1F3D986}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateService.Web.API.Data", "CertificateService.Web.API.Data\CertificateService.Web.API.Data.csproj", "{91FF5473-2F9B-4B3C-BD57-C121E1F3D986}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{03D7D868-D15F-4995-8E38-B9A0C766C0C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateService.Web.API.Tests", "CertificateService.Web.API.Tests\CertificateService.Web.API.Tests.csproj", "{103B85C8-BE57-432C-A7C5-42E950FBA310}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateService.Web.API.Tests", "CertificateService.Web.API.Tests\CertificateService.Web.API.Tests.csproj", "{103B85C8-BE57-432C-A7C5-42E950FBA310}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateService.Web.API.Core.Tests", "CertificateService.Web.API.Core.Tests\CertificateService.Web.API.Core.Tests.csproj", "{0B2E8AA2-6540-4A5E-AC09-6227C622748E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateService.Web.API.Core.Tests", "CertificateService.Web.API.Core.Tests\CertificateService.Web.API.Core.Tests.csproj", "{0B2E8AA2-6540-4A5E-AC09-6227C622748E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateService.Web.API.Data.Tests", "CertificateService.Web.API.Data.Tests\CertificateService.Web.API.Data.Tests.csproj", "{70BDF19A-DD59-4DB2-A6FA-E03D26F66BAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateService.Web.API.Data.Tests", "CertificateService.Web.API.Data.Tests\CertificateService.Web.API.Data.Tests.csproj", "{70BDF19A-DD59-4DB2-A6FA-E03D26F66BAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code analysis", "Code analysis", "{0CB8F004-4E0A-4F78-9089-BE10F8ADC056}"
+	ProjectSection(SolutionItems) = preProject
+		stylecop.json = stylecop.json
+		StyleCop.ruleset = StyleCop.ruleset
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
