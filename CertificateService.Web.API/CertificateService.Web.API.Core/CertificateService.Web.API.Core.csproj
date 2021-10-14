@@ -23,4 +23,8 @@
     <ProjectReference Include="..\CertificateService.Web.API.Data\CertificateService.Web.API.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\NewFolder\" />
+  </ItemGroup>
+
 </Project>

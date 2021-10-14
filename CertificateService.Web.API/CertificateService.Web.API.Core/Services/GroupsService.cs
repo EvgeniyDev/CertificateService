@@ -12,12 +12,19 @@ using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
+    /// <inheritdoc cref="IGroupsService"/>
     public class GroupsService : IGroupsService
     {
         private readonly IMapper mapper;
         private readonly IGroupRepository groupRepository;
         private readonly IStudentRepository studentsRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GroupsService"/> class.
+        /// </summary>
+        /// <param name="groupRepository"><see cref="IGroupRepository"/>.</param>
+        /// <param name="studentsRepository"><see cref="IStudentRepository"/>.</param>
+        /// <param name="mapper"><see cref="IMapper"/>.</param>
         public GroupsService(
             IGroupRepository groupRepository,
             IStudentRepository studentsRepository,
@@ -28,12 +35,14 @@ namespace CertificateService.Web.API.Core.Services
             this.studentsRepository = studentsRepository;
         }
 
+        /// <inheritdoc/>
         public async Task AddAsync(AddGroupViewModel newGroup)
         {
             var groupToAdd = mapper.Map<Group>(newGroup);
             await groupRepository.AddAsync(groupToAdd);
         }
 
+        /// <inheritdoc/>
         public async Task DeleteAsync(int id)
         {
             await GetGroupAsync(id);
@@ -41,6 +50,7 @@ namespace CertificateService.Web.API.Core.Services
             await groupRepository.DeleteAsync(id);
         }
 
+        /// <inheritdoc/>
         public async Task<Group> GetGroupAsync(int id)
         {
             var group = await groupRepository.GetGroupByPredicateAsync(g => g.Id == id);
@@ -54,6 +64,7 @@ namespace CertificateService.Web.API.Core.Services
             return group;
         }
 
+        /// <inheritdoc/>
         public async Task<Group> GetGroupAsync(string groupName)
         {
             var group = await groupRepository.GetGroupByPredicateAsync(g => g.Name == groupName);
@@ -67,6 +78,7 @@ namespace CertificateService.Web.API.Core.Services
             return group;
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Group>> GetGroupsAsync()
         {
             var groups = await groupRepository.GetGroupsAsync();
@@ -80,6 +92,7 @@ namespace CertificateService.Web.API.Core.Services
             return groups;
         }
 
+        /// <inheritdoc/>
         public async Task UpdateAsync(UpdateGroupViewModel group)
         {
             await GetGroupAsync(group.Id);
@@ -88,6 +101,7 @@ namespace CertificateService.Web.API.Core.Services
             await groupRepository.UpdateAsync(groupToUpdate);
         }
 
+        /// <inheritdoc/>
         public async Task AddStudentsToGroupAsync(int groupId, int[] studentIds)
         {
             var group = await GetGroupAsync(groupId);
@@ -117,6 +131,7 @@ namespace CertificateService.Web.API.Core.Services
             await groupRepository.SaveAsync();
         }
 
+        /// <inheritdoc/>
         public async Task RemoveStudentsFromGroupAsync(int groupId, int[] studentIds)
         {
             var group = await GetGroupAsync(groupId);
@@ -143,6 +158,7 @@ namespace CertificateService.Web.API.Core.Services
             await groupRepository.SaveAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<Group> GetStudentGroupName(int studentId)
         {
             var groups = await GetGroupsAsync();

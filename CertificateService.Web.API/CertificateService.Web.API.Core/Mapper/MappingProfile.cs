@@ -5,8 +5,12 @@ using CertificateService.Web.API.Data.Models;
 
 namespace CertificateService.Web.API.Core.Mapper
 {
+    /// <inheritdoc/>
     public class MappingProfile : Profile
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingProfile"/> class.
+        /// </summary>
         public MappingProfile()
         {
             CreateMap<Faculty, AddFacultyViewModel>().ReverseMap();

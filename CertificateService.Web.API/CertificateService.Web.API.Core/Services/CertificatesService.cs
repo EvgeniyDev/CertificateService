@@ -1,4 +1,5 @@
-﻿using CertificateService.Web.API.Core.Services.Interfaces;
+﻿using CertificateService.Web.API.Core.Helpers.Models;
+using CertificateService.Web.API.Core.Services.Interfaces;
 using CertificateService.Web.API.Core.ViewModels;
 using CertificateService.Web.API.Data.Resources;
 using Microsoft.Extensions.Options;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
+    /// <inheritdoc cref="ICertificatesService"/>
     public class CertificatesService : ICertificatesService
     {
         private readonly string certificateFilePath;
@@ -19,10 +21,16 @@ namespace CertificateService.Web.API.Core.Services
         private readonly IStudentsService studentsService;
         private readonly IGroupsService groupsService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CertificatesService"/> class.
+        /// </summary>
+        /// <param name="studentsService"><see cref="IStudentsService"/>.</param>
+        /// <param name="groupsService"><see cref="IGroupsService"/>.</param>
+        /// <param name="options">An options, representing certificate data.</param>
         public CertificatesService(
             IStudentsService studentsService,
             IGroupsService groupsService,
-            IOptions<CertificateViewModel> options)
+            IOptions<CertificateModel> options)
         {
             this.studentsService = studentsService;
             this.groupsService = groupsService;
@@ -30,6 +38,7 @@ namespace CertificateService.Web.API.Core.Services
             certificateFilePath = options.Value.FilePath;
         }
 
+        /// <inheritdoc/>
         public async Task<Stream> GetCertificateAsync(int studentId, bool isPdf)
         {
             var student = await studentsService.GetStudentAsync(studentId);
@@ -56,6 +65,7 @@ namespace CertificateService.Web.API.Core.Services
                 document.Save(stream, FormatType.Docx);
                 document.Close();
             }
+
             stream.Position = 0;
 
             return stream;

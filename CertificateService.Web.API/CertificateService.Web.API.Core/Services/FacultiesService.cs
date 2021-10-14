@@ -12,12 +12,19 @@ using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Core.Services
 {
+    /// <inheritdoc cref="IFacultiesService"/>
     public class FacultiesService : IFacultiesService
     {
         private readonly IMapper mapper;
         private readonly IFacultyRepository facultyRepository;
         private readonly IGroupsService groupsService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FacultiesService"/> class.
+        /// </summary>
+        /// <param name="facultyRepository"><see cref="IFacultyRepository"/>.</param>
+        /// <param name="groupsService"><see cref="IGroupsService"/>.</param>
+        /// <param name="mapper"><see cref="IMapper"/>.</param>
         public FacultiesService(
             IFacultyRepository facultyRepository,
             IGroupsService groupsService,
@@ -28,6 +35,7 @@ namespace CertificateService.Web.API.Core.Services
             this.groupsService = groupsService;
         }
 
+        /// <inheritdoc/>
         public async Task AddAsync(AddFacultyViewModel newFaculty)
         {
             var facultyToAdd = mapper.Map<Faculty>(newFaculty);
@@ -35,6 +43,7 @@ namespace CertificateService.Web.API.Core.Services
             await facultyRepository.AddAsync(facultyToAdd);
         }
 
+        /// <inheritdoc/>
         public async Task DeleteAsync(int id)
         {
             await GetFacultyAsync(id);
@@ -42,6 +51,7 @@ namespace CertificateService.Web.API.Core.Services
             await facultyRepository.DeleteAsync(id);
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Faculty>> GetFacultiesAsync()
         {
             var faculties = await facultyRepository.GetFacultiesAsync();
@@ -55,6 +65,7 @@ namespace CertificateService.Web.API.Core.Services
             return faculties;
         }
 
+        /// <inheritdoc/>
         public async Task<Faculty> GetFacultyAsync(int id)
         {
             var faculty = await facultyRepository.GetFacultyByPredicateAsync(f => f.Id == id);
@@ -68,9 +79,10 @@ namespace CertificateService.Web.API.Core.Services
             return faculty;
         }
 
+        /// <inheritdoc/>
         public async Task<Faculty> GetFacultyByNumberAsync(int number)
         {
-            var faculty = await facultyRepository .GetFacultyByPredicateAsync(f => f.Number == number);
+            var faculty = await facultyRepository.GetFacultyByPredicateAsync(f => f.Number == number);
 
             if (faculty == null)
             {
@@ -81,6 +93,7 @@ namespace CertificateService.Web.API.Core.Services
             return faculty;
         }
 
+        /// <inheritdoc/>
         public async Task UpdateAsync(UpdateFacultyViewModel faculty)
         {
             await GetFacultyAsync(faculty.Id);
@@ -89,6 +102,7 @@ namespace CertificateService.Web.API.Core.Services
             await facultyRepository.UpdateAsync(facultyToUpdate);
         }
 
+        /// <inheritdoc/>
         public async Task AddGroupsToFacultyAsync(int facultyId, int[] groupIds)
         {
             var faculty = await GetFacultyAsync(facultyId);
@@ -110,6 +124,7 @@ namespace CertificateService.Web.API.Core.Services
             await facultyRepository.SaveAsync();
         }
 
+        /// <inheritdoc/>
         public async Task RemoveGroupsFromFacultyAsync(int facultyId, int[] groupIds)
         {
             var faculty = await GetFacultyAsync(facultyId);

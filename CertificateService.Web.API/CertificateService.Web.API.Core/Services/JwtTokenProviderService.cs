@@ -10,16 +10,22 @@ using System.Text;
 
 namespace CertificateService.Web.API.Core.Services
 {
+    /// <inheritdoc cref="IJwtTokenProviderService"/>
     public class JwtTokenProviderService : IJwtTokenProviderService
     {
         private const string TokenType = "Bearer ";
         private readonly AuthorizationModel authorizationModel;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JwtTokenProviderService"/> class.
+        /// </summary>
+        /// <param name="authorizationModel">A model representing authorization data.</param>
         public JwtTokenProviderService(IOptions<AuthorizationModel> authorizationModel)
         {
             this.authorizationModel = authorizationModel.Value;
         }
 
+        /// <inheritdoc/>
         public string CreateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

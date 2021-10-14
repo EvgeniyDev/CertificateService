@@ -1,25 +1,31 @@
-﻿using CertificateService.Web.API.Core.Exceptions;
-using CertificateService.Web.API.Core.Services.Interfaces;
-using CertificateService.Web.API.Core.ViewModels;
-using CertificateService.Web.API.Data.Resources;
-using CertificateService.Web.API.Data.Models;
-using CertificateService.Web.API.Data.Repositories.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using CertificateService.Web.API.Core.Exceptions;
+using CertificateService.Web.API.Core.Services.Interfaces;
+using CertificateService.Web.API.Core.ViewModels;
+using CertificateService.Web.API.Data.Models;
+using CertificateService.Web.API.Data.Repositories.Interfaces;
+using CertificateService.Web.API.Data.Resources;
 
 namespace CertificateService.Web.API.Core.Services
 {
+    /// <inheritdoc cref="IStudentsService"/>
     public class StudentsService : IStudentsService
     {
         private readonly IStudentRepository studentRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StudentsService"/> class.
+        /// </summary>
+        /// <param name="studentRepository"><see cref="IStudentRepository"/>.</param>
         public StudentsService(IStudentRepository studentRepository)
         {
             this.studentRepository = studentRepository;
         }
 
+        /// <inheritdoc/>
         public async Task AddAsync(AddStudentViewModel newStudent)
         {
             await studentRepository.AddAsync(new Student()
@@ -39,6 +45,7 @@ namespace CertificateService.Web.API.Core.Services
             });
         }
 
+        /// <inheritdoc/>
         public async Task DeleteAsync(int id)
         {
             await GetStudentAsync(id);
@@ -46,6 +53,7 @@ namespace CertificateService.Web.API.Core.Services
             await studentRepository.DeleteAsync(id);
         }
 
+        /// <inheritdoc/>
         public async Task<StudentViewModel> GetStudentAsync(int id)
         {
             var student = await studentRepository.GetStudentAsync(s => s.Id == id);
@@ -59,6 +67,7 @@ namespace CertificateService.Web.API.Core.Services
             return MapStudent(student);
         }
 
+        /// <inheritdoc/>
         public async Task<StudentViewModel> GetStudentAsync(string name, string surname, string patornymic)
         {
             var student = await studentRepository
@@ -73,6 +82,7 @@ namespace CertificateService.Web.API.Core.Services
             return MapStudent(student);
         }
 
+        /// <inheritdoc/>
         public async Task<StudentViewModel> GetStudentAsync(string studentTicketNumber)
         {
             var student = await studentRepository.GetStudentAsync(s => s.StudentTicket.Number == studentTicketNumber);
@@ -86,6 +96,7 @@ namespace CertificateService.Web.API.Core.Services
             return MapStudent(student);
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<StudentViewModel>> GetStudentsAsync()
         {
             var studentViewModels = new List<StudentViewModel>();
@@ -120,6 +131,7 @@ namespace CertificateService.Web.API.Core.Services
             };
         }
 
+        /// <inheritdoc/>
         public async Task UpdateAsync(StudentViewModel student)
         {
             var studentInDb = await studentRepository.GetStudentAsync(s => s.Id == student.Id);
