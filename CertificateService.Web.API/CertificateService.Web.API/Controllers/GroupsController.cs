@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Controllers
 {
+    /// <summary>
+    /// A controller for groups manipulations.
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize(Roles = Constants.Role.Admin)]
     [ApiController]
@@ -15,11 +18,20 @@ namespace CertificateService.Web.API.Controllers
     {
         private readonly IGroupsService groupsService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GroupsController"/> class.
+        /// </summary>
+        /// <param name="groupsService"><see cref="IGroupsService"/>.</param>
         public GroupsController(IGroupsService groupsService)
         {
             this.groupsService = groupsService;
         }
 
+        /// <summary>
+        /// Gets group by specified id.
+        /// </summary>
+        /// <param name="id">Group id.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetGroupById(int id)
         {
@@ -28,6 +40,11 @@ namespace CertificateService.Web.API.Controllers
             return Ok(group);
         }
 
+        /// <summary>
+        /// Gets group by specified name.
+        /// </summary>
+        /// <param name="name">Group name.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpGet("groupNames/{name}")]
         public async Task<IActionResult> GetGroupByName(string name)
         {
@@ -36,6 +53,10 @@ namespace CertificateService.Web.API.Controllers
             return Ok(group);
         }
 
+        /// <summary>
+        /// Gets all groups.
+        /// </summary>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpGet]
         public async Task<IActionResult> GetGroups()
         {
@@ -44,6 +65,11 @@ namespace CertificateService.Web.API.Controllers
             return Ok(groups);
         }
 
+        /// <summary>
+        /// Adds new group.
+        /// </summary>
+        /// <param name="group">Group to add.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpPost]
         public async Task<IActionResult> Add(AddGroupViewModel group)
         {
@@ -52,22 +78,39 @@ namespace CertificateService.Web.API.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
+        /// <summary>
+        /// Adds students to group.
+        /// </summary>
+        /// <param name="groupId">Group id.</param>
+        /// <param name="studentIds">Student ids'.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpPost("students/{groupId}")]
-        public async Task<IActionResult> AddGroupsToFaculty(int groupId, int[] studentIds)
+        public async Task<IActionResult> AddStudentsToGroup(int groupId, int[] studentIds)
         {
             await groupsService.AddStudentsToGroupAsync(groupId, studentIds);
 
             return StatusCode(StatusCodes.Status201Created);
         }
 
+        /// <summary>
+        /// Removes students from group.
+        /// </summary>
+        /// <param name="groupId">Group id.</param>
+        /// <param name="studentIds">Student ids'.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpDelete("students/{groupId}")]
-        public async Task<IActionResult> RemoveGroupsToFaculty(int groupId, int[] studentIds)
+        public async Task<IActionResult> RemoveStudentsFromGroup(int groupId, int[] studentIds)
         {
             await groupsService.RemoveStudentsFromGroupAsync(groupId, studentIds);
 
             return NoContent();
         }
 
+        /// <summary>
+        /// Updates existing group.
+        /// </summary>
+        /// <param name="group">Group data to update with.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpPut]
         public async Task<IActionResult> Update(UpdateGroupViewModel group)
         {
@@ -76,6 +119,11 @@ namespace CertificateService.Web.API.Controllers
             return Ok(group);
         }
 
+        /// <summary>
+        /// Deletes existing group.
+        /// </summary>
+        /// <param name="id">Group id.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

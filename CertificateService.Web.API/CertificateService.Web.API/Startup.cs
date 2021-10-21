@@ -1,5 +1,5 @@
+﻿using CertificateService.Web.API.Core.Helpers.Models;
 using CertificateService.Web.API.Core.Mapper;
-using CertificateService.Web.API.Core.ViewModels;
 using CertificateService.Web.API.Data.Context;
 using CertificateService.Web.API.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -13,22 +13,36 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CertificateService.Web.API
 {
+    /// <summary>
+    /// A Startup class.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class Startup
     {
+        /// <summary>
+        /// Gets or set <see cref="IConfiguration"/>.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration"><see cref="IConfiguration"/>.</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Configures services used in the application.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/>.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDBContext>(options => options.UseSqlServer(connectionString));
 
-            services.Configure<CertificateViewModel>(Configuration.GetSection(nameof(CertificateViewModel)));
+            services.Configure<CertificateModel>(Configuration.GetSection(nameof(CertificateModel)));
 
             services.AddAutoMapper(config => config.AddProfile(new MappingProfile()), typeof(Startup));
 
@@ -42,6 +56,11 @@ namespace CertificateService.Web.API
             services.AddSwaggerAuthentication();
         }
 
+        /// <summary>
+        /// Specifies how the application responds to HTTP requests.
+        /// </summary>
+        /// <param name="app"><see cref="IApplicationBuilder"/>.</param>
+        /// <param name="env"><see cref="IWebHostEnvironment"/>.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.EnsureMigrationOfContext<AppDBContext>();

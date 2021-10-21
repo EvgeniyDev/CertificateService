@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Controllers
 {
+    /// <summary>
+    /// A controller for students manipulations.
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize(Roles = Constants.Role.Admin)]
     [ApiController]
@@ -15,11 +18,20 @@ namespace CertificateService.Web.API.Controllers
     {
         private readonly IStudentsService studentsService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StudentsController"/> class.
+        /// </summary>
+        /// <param name="studentsService"><see cref="IStudentsService"/>.</param>
         public StudentsController(IStudentsService studentsService)
         {
             this.studentsService = studentsService;
         }
 
+        /// <summary>
+        /// Gets student by specified id.
+        /// </summary>
+        /// <param name="id">Student id.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -28,6 +40,13 @@ namespace CertificateService.Web.API.Controllers
             return Ok(student);
         }
 
+        /// <summary>
+        /// Gets student by specified full name.
+        /// </summary>
+        /// <param name="name">Student name.</param>
+        /// <param name="surname">Student surname.</param>
+        /// <param name="patronymic">Student patronymic.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpGet("{name}/{surname}/{patronymic}")]
         public async Task<IActionResult> GetByFullName(string name, string surname, string patronymic)
         {
@@ -36,6 +55,11 @@ namespace CertificateService.Web.API.Controllers
             return Ok(student);
         }
 
+        /// <summary>
+        /// Gets student by specified student's ticket number.
+        /// </summary>
+        /// <param name="studentTicketNumber">Student's ticket number.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpGet("studentTickets/{studentTicketNumber}")]
         public async Task<IActionResult> GetByStudentTicketNumber(string studentTicketNumber)
         {
@@ -44,6 +68,10 @@ namespace CertificateService.Web.API.Controllers
             return Ok(student);
         }
 
+        /// <summary>
+        /// Gets all students.
+        /// </summary>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpGet]
         public async Task<IActionResult> GetStudents()
         {
@@ -52,6 +80,11 @@ namespace CertificateService.Web.API.Controllers
             return Ok(students);
         }
 
+        /// <summary>
+        /// Adds new student.
+        /// </summary>
+        /// <param name="student">Student to add.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpPost]
         public async Task<IActionResult> Add(AddStudentViewModel student)
         {
@@ -60,6 +93,11 @@ namespace CertificateService.Web.API.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
+        /// <summary>
+        /// Updates existing student.
+        /// </summary>
+        /// <param name="student">Student data to update with.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpPut]
         public async Task<IActionResult> Update(StudentViewModel student)
         {
@@ -68,6 +106,11 @@ namespace CertificateService.Web.API.Controllers
             return Ok(student);
         }
 
+        /// <summary>
+        /// Deletes existing student.
+        /// </summary>
+        /// <param name="id">Student id.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

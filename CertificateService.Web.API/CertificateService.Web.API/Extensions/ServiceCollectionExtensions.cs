@@ -13,8 +13,15 @@ using System.Text;
 
 namespace CertificateService.Web.API.Extensions
 {
+    /// <summary>
+    /// An extensions for <see cref="IServiceCollection"/>.
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Registers all application services.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/>.</param>
         public static void ServiceInjection(this IServiceCollection services)
         {
             services.AddScoped<IFacultyRepository, FacultyRepository>();
@@ -32,6 +39,11 @@ namespace CertificateService.Web.API.Extensions
             services.AddScoped<IJwtTokenProviderService, JwtTokenProviderService>();
         }
 
+        /// <summary>
+        /// Adds authentication via JWT to application.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/>.</param>
+        /// <param name="configuration"><see cref="IConfiguration"/>.</param>
         public static void AddJwtBearerAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var appSettingsSection = configuration.GetSection(nameof(AuthorizationModel));
@@ -59,6 +71,10 @@ namespace CertificateService.Web.API.Extensions
             });
         }
 
+        /// <summary>
+        /// Adds an ability to authenticate on Swagger UI.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/>.</param>
         public static void AddSwaggerAuthentication(this IServiceCollection services)
         {
             services.AddSwaggerGen(o =>
@@ -91,7 +107,7 @@ namespace CertificateService.Web.API.Extensions
                         new List<string>()
                     }
                 });
-            });            
+            });
         }
     }
 }

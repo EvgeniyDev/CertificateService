@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CertificateService.Web.API.Controllers
 {
+    /// <summary>
+    /// A controller for certificate manipulations.
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize(Roles = Constants.Role.Admin)]
     [ApiController]
@@ -13,11 +16,21 @@ namespace CertificateService.Web.API.Controllers
     {
         private readonly ICertificatesService certificatesService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CertificateController"/> class.
+        /// </summary>
+        /// <param name="certificatesService"><see cref="ICertificatesService"/>.</param>
         public CertificateController(ICertificatesService certificatesService)
         {
             this.certificatesService = certificatesService;
         }
 
+        /// <summary>
+        /// Gets the certificate by student id in specified format.
+        /// </summary>
+        /// <param name="studentId">Student id.</param>
+        /// <param name="isPdf">A values indicating where the file is in PDF or DOCX format.</param>
+        /// <returns>An async <see cref="IActionResult"/> with the response data.</returns>
         [HttpGet]
         public async Task<IActionResult> GetCertificate(int studentId, bool isPdf)
         {
