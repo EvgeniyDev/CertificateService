@@ -7,6 +7,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="ViewModels\NewFolder\**" />
+    <EmbeddedResource Remove="ViewModels\NewFolder\**" />
+    <None Remove="ViewModels\NewFolder\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
@@ -21,10 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CertificateService.Web.API.Data\CertificateService.Web.API.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\NewFolder\" />
   </ItemGroup>
 
 </Project>
