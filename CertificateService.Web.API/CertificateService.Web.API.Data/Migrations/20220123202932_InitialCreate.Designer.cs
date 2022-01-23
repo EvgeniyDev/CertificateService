@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CertificateService.Web.API.Data.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20210824110231_ContextConfigurationAdd")]
-    partial class ContextConfigurationAdd
+    [Migration("20220123202932_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -144,6 +144,33 @@ namespace CertificateService.Web.API.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("StudentTickets");
+                });
+
+            modelBuilder.Entity("CertificateService.Web.API.Data.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CertificateService.Web.API.Data.Models.Group", b =>
